@@ -376,9 +376,13 @@
                             </div>
                         </div>
                         <div class="accordion" id="other_img">
-                            @foreach($profile->gallery_photo as $gallery_photo)
-                                <img src="{{ asset('/gallery_photo/'.$gallery_photo->image) }}" class="img-thumbnail w-25"  />
-                            @endforeach
+                            @if(count($profile->gallery_photo) > 0)
+                                @foreach($profile->gallery_photo as $gallery_photo)
+                                    <img src="{{ asset('/gallery_photo/'.$gallery_photo->image) }}" class="img-thumbnail w-25"  />
+                                @endforeach
+                            @else
+                                <h5 class="text-center">No other images</h5>
+                            @endif
                         </div>
                     </div>
 
