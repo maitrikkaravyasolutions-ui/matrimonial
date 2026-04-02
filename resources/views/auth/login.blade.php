@@ -51,11 +51,11 @@
           <form method="POST" action="{{ route('login') }}">
             @csrf
             <div class="input-group mb-3">
-              <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  placeholder="Email"  required autofocus>
+              <input id="email" type="text" class="form-control @error('login') is-invalid @enderror" name="login" value="{{ old('login') }}"  placeholder="Email"  required autofocus>
               <div class="input-group-text">
                 <span class="bi bi-envelope"></span>
               </div>
-              @error('email')
+              @error('login')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>

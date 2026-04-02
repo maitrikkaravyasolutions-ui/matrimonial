@@ -3,7 +3,7 @@
 @section('content')
 <section class="content">
       <div class="container-fluid">
-        <div class="row">
+        <div class="row g-4">
           <div class="col-md-3">
 
             <!-- Profile Image -->
@@ -22,7 +22,7 @@
                 </div>
                 
 
-                <h3 class="profile-username text-center">{{ $profile->first_name }} {{ $profile->last_name }}</h3>
+                <h3 class="profile-username text-center mt-2">{{ $profile->first_name }} {{ $profile->last_name }}</h3>
 
                 <p class="text-muted text-center">{{ $profile->date_of_birth }}</p>
               </div>
@@ -43,7 +43,7 @@
                 <div class="card-body">
                     <div class="row g-3">
                       <!--begin::Col-->
-                        <div class="accordion" id="accordionExample">
+                        <div class="accordion">
                           <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button
@@ -57,7 +57,8 @@
                                     Basic Information
                                 </button>
                             </h2>
-                            <div class="accordion" id="accordionExample">
+                          </div>
+                          <div class="accordion">
                                 <div
                                   id="basic_information"
                                   class="accordion-collapse collapse show"
@@ -133,12 +134,11 @@
                                    </div>
                                 </div>
                             </div>
-                          </div>
                         </div>
                     </div>
 
                     <div class="row g-3 mt-1">
-                        <div class="accordion" id="accordionExample">
+                        <div class="accordion">
                           <div class="accordion-item">
                             <h2 class="accordion-header">
                                     <button
@@ -169,7 +169,7 @@
                     </div>
 
                     <div class="row g-3 mt-1">
-                        <div class="accordion" id="accordionExample">
+                        <div class="accordion">
                           <div class="accordion-item">
                             <h2 class="accordion-header">
                                     <button
@@ -212,7 +212,7 @@
                     </div>
 
                     <div class="row g-3 mt-1">
-                        <div class="accordion" id="accordionExample">
+                        <div class="accordion">
                           <div class="accordion-item">
                             <h2 class="accordion-header">
                                     <button
@@ -263,7 +263,7 @@
                     </div>
 
                     <div class="row g-3 mt-1">
-                        <div class="accordion" id="accordionExample">
+                        <div class="accordion">
                           <div class="accordion-item">
                             <h2 class="accordion-header">
                                     <button
@@ -301,7 +301,7 @@
 
 
                     <div class="row g-3 mt-1">
-                        <div class="accordion" id="accordionExample">
+                        <div class="accordion">
                           <div class="accordion-item">
                             <h2 class="accordion-header">
                                     <button
@@ -333,7 +333,7 @@
                     </div>
 
                     <div class="row g-3 mt-1">
-                        <div class="accordion" id="accordionExample">
+                        <div class="accordion">
                           <div class="accordion-item">
                             <h2 class="accordion-header">
                                     <button
@@ -359,7 +359,7 @@
                     </div>
                 </div>
                     <div class="row g-3 mt-1">
-                        <div class="accordion" id="accordionExample">
+                        <div class="accordion">
                           <div class="accordion-item">
                             <h2 class="accordion-header">
                                     <button
@@ -382,17 +382,12 @@
                         </div>
                     </div>
 
+                </div>
             </div>
           </div>
-          </div>
-
           <!-- /.col -->
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>
-
-
-
-
 @endsection

@@ -3,7 +3,7 @@
 @section('content')
   <!--begin::Container-->
   <div class="container-fluid">
-        <form method="get" id="search_profile" name="search_profile" action= "{{ route('/') }}">
+        <form method="get" id="search_profile" name="search_profile" action= "{{ route('user',['username' => request()->route('username') ?? '']) }}">
           <div class="row">
 
               <div class="col-md-3">
@@ -25,7 +25,7 @@
                   </select>
               </div>
               <div class ="col-md-3">
-                <label for="marital_status" class="form-label">Marital Status<span class="text-danger">*</span></label>
+                <label for="marital_status" class="form-label">Marital Status</label>
 
                 <select class="form-select" id="marital_status" name="marital_status">
                   
@@ -43,7 +43,7 @@
                 <input type="number" id="max_age" name="max_age" class="form-control mx-2" style="width: 150px;" placeholder="maximum age" min="0" value="<?php if (isset($_GET['max_age']) && $_GET['max_age'])  echo $_GET['max_age'] ?>" />
               </div>
               <div class="col-md-3 mt-1">
-                <label for="name" class="form-label">Religion/name/profession/Education</label>
+                <label for="name" class="form-label">Religion/Name/Profession/Education</label>
                 <input type="text" id="" name="name" class="form-control" value="<?php if (isset($_GET['name']) && $_GET['name'])  echo $_GET['name'] ?>" />
               </div>
               <div class="col-md-3 mt-4">

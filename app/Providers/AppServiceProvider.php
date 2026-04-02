@@ -10,6 +10,8 @@ use App\Services\UserService;
 use App\Repositories\ProfileRepositoryInterface;
 use App\Repositories\ProfileRepository;
 use App\Services\ProfileService;
+use App\Repositories\HomeRepositoryInterface;
+use App\Repositories\HomeRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(ProfileRepositoryInterface::class, ProfileRepository::class);
-
+        $this->app->bind(HomeRepositoryInterface::class, HomeRepository::class);
         $this->app->bind(UserService::class, function($app){
             return new UserService($app->make(UserRepositoryInterface::class));
         });

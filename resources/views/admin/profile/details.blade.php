@@ -15,9 +15,9 @@
 @endsection
 
 @section('content')
-<section class="content">
+ <section class="content">
       <div class="container-fluid">
-        <div class="row">
+        <div class="row g-4">
           <div class="col-md-3">
 
             <!-- Profile Image -->
@@ -35,14 +35,12 @@
                     @endif
                 </div>
 
-                <h3 class="profile-username text-center">{{ $profile->first_name }} {{ $profile->last_name }}</h3>
+                <h3 class="profile-username text-center mt-2">{{ $profile->first_name }} {{ $profile->last_name }}</h3>
 
                 <p class="text-muted text-center">{{ $profile->date_of_birth }}</p>
               </div>
               <!-- /.card-body -->
             </div>
-            <!-- /.card -->
-
             <!-- /.card -->
           </div>
           <!-- /.col -->
@@ -401,9 +399,6 @@
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
-    </section>
-
-
-
+ </section>
 
 @endsection
