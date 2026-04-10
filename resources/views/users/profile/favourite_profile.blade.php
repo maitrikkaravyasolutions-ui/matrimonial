@@ -182,7 +182,7 @@
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h5 class="mb-0">Favourite Profiles</h5>
 
-                            <form method="get" name="search_profile" action= "{{ route('user.profiles') }}">
+                            <form method="get" name="search_profile" action="{{ route('user.favourite_profile') }}">
                               <input type="hidden" name="sort_by" id="" value="" />
                                 <select class="form-select w-auto m-2" name="sorting" id="sorting">
                                   <option value="latest" {{ request('sort_by') == 'latest' ? 'selected' : '' }}>Latest</option>

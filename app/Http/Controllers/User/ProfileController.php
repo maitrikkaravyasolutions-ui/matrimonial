@@ -173,7 +173,6 @@ class ProfileController extends Controller
 
         // Sorting
         if (!empty($request->sort_by)) {
-
             if ($request->sort_by == "age") {
                 $query->whereHas('profile', function ($q) use ($request) {
                     $q->orderBy('age', 'asc');
@@ -190,11 +189,9 @@ class ProfileController extends Controller
                 $query->latest();
             }
 
-        } else {
-            $query->latest();
         }
 
-        $profilelist = $query->orderBy('id', 'desc')->paginate(12)->appends($request->all());
+        $profilelist = $query->paginate(12)->appends($request->all());
 
         // City list
         $cityList = DB::table('favourite_profiles')

@@ -261,16 +261,17 @@ Profile List
                                            class="btn btn-success btn-sm flex-fill">
                                             View Profile
                                         </a>
-
-                                        @if($profile->is_favourite  == 0)
-                                          <button class="btn btn-danger btn-sm flex-fill" onclick="BookmarkFunction({{ $profile->id }},this)">
-                                              ❤️
-                                          </button>
-                                        @else
-                                          <button
-                                             class="btn btn-danger btn-sm flex-fill" onclick="BookmarkFunction({{ $profile->id }},this)">
-                                              ❤️ Favourite
-                                          </button>
+                                        @if(Auth::user()?->role=="User")
+                                          @if($profile->is_favourite  == 0)
+                                            <button class="btn btn-danger btn-sm flex-fill" onclick="BookmarkFunction({{ $profile->id }},this)">
+                                                ❤️
+                                            </button>
+                                          @else
+                                            <button
+                                               class="btn btn-danger btn-sm flex-fill" onclick="BookmarkFunction({{ $profile->id }},this)">
+                                                ❤️ Favourite
+                                            </button>
+                                          @endif
                                         @endif
                                     </div>
                                 </div>

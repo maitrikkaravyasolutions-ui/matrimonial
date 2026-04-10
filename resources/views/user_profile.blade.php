@@ -39,14 +39,16 @@ User Detail Page
           </p>
 
           <div class="d-flex flex-wrap gap-2">
-            @if($is_favourite)
-                <button class="btn btn-danger" onclick="BookmarkFunction({{ $profile->id }},this)">
-                  ❤️ Favourite
-                </button>
-            @else
-                <button class="btn btn-danger" onclick="BookmarkFunction({{ $profile->id }},this)">
-                  ❤️
-                </button>
+            @if(Auth::user()?->role=="User")
+                @if($is_favourite)
+                    <button class="btn btn-danger" onclick="BookmarkFunction({{ $profile->id }},this)">
+                      ❤️ Favourite
+                    </button>
+                @else
+                    <button class="btn btn-danger" onclick="BookmarkFunction({{ $profile->id }},this)">
+                      ❤️
+                    </button>
+                @endif
             @endif
             <a href="{{ route('user.profiles') }}" class="btn btn-sm btn-outline-primary ">
                 <i class="bi bi-arrow-left"></i> Back
