@@ -11,11 +11,13 @@ function BookmarkFunction(profileId, el) {
     })
     .then(res => res.json())
     .then(data => {
+        el.blur();
         Swal.fire({
           title: 'Good job!',
           text: 'Pofile Removed from Favourite',
           icon: 'success',
-          confirmButtonText: 'OK'
+          confirmButtonText: 'OK',
+          returnFocus: false
         }).then((result) => {
           if (result.isConfirmed) {
             location.reload();
@@ -73,4 +75,69 @@ document.addEventListener("DOMContentLoaded", function () {
     icon.classList.remove('bi-chevron-compact-up');
     icon.classList.add('bi-chevron-compact-down');
   });
+});
+
+
+let page = 1;
+let loading = false;
+let hasMore = true;
+
+$(window).on("scroll", function () {
+
+    if (loading || !hasMore) return;
+
+    let scrollTop = $(window).scrollTop();
+    let windowHeight = $(window).height();
+    let documentHeight = $(document).height();
+
+    if (scrollTop + windowHeight >= documentHeight - 100) {
+        loadMore();
+    }
+});
+
+function loadMore() {
+    loading = true;
+
+    page++;
+
+    $.ajax({
+        url: "/user/favourite-profile?page=" + page,
+        type: "GET",
+        dataType: "json",
+        success: function (res) {
+            if (res.html.trim() !== "") {
+                $('#favourite_profile_list').append(res.html);
+            }
+
+            if (!res.has_more) {
+                hasMore = false;
+                $('#favourite_profile_list').append("<h3 class='text-center'>No More Record found</h3>");
+            }
+
+            loading = false;
+        },
+        error: function () {
+            loading = false;
+        }
+    });
+}
+
+let scrollTimeout;
+
+$(window).on("scroll", function () {
+    clearTimeout(scrollTimeout);
+
+    scrollTimeout = setTimeout(function () {
+
+        if (loading || !hasMore) return;
+
+        let scrollTop = $(window).scrollTop();
+        let windowHeight = $(window).height();
+        let documentHeight = $(document).height();
+
+        if (scrollTop + windowHeight >= documentHeight - 100) {
+            loadMore();
+        }
+
+    }, 200);
 });

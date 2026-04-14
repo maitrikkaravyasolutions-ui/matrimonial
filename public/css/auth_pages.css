@@ -1,0 +1,290 @@
+.login-page {
+    width: 100%;
+    padding: 1.5rem 0;
+}
+.login-shell {
+    border: 0;
+    border-radius: 1.1rem;
+    overflow: hidden;
+    box-shadow: 0 16px 34px rgba(56, 28, 42, 0.16);
+}
+.login-brand-panel {
+    background: linear-gradient(145deg, #8b1e3f 0%, #b84b69 55%, #d5758f 100%);
+    color: #fff;
+    padding: 2rem 1.6rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.login-brand-title {
+    font-weight: 800;
+    letter-spacing: .2px;
+}
+.login-brand-subtitle {
+    color: rgba(255, 255, 255, 0.92);
+    margin-bottom: 0;
+}
+.login-brand-points {
+    margin: 1.1rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+.login-brand-points li {
+    margin-bottom: .55rem;
+    font-size: .9rem;
+}
+.login-brand-points i {
+    margin-right: .45rem;
+}
+.login-form-panel {
+    background: #fff;
+    padding: 1.75rem 1.4rem;
+}
+.login-heading {
+    color: #2f2430;
+    font-weight: 700;
+    margin-bottom: .25rem;
+}
+.login-subheading {
+    color: #7a5a66;
+    font-size: .92rem;
+    margin-bottom: 1.25rem;
+}
+.login-input-group .input-group-text {
+    background: #fff6f8;
+    border: 1px solid #ead1d8;
+    color: #8b1e3f;
+}
+.login-input-group .form-control {
+    border: 1px solid #ead1d8;
+    min-height: 46px;
+    box-shadow: none;
+}
+.login-input-group .form-control:focus {
+    border-color: #c78396;
+    box-shadow: 0 0 0 .2rem rgba(139, 30, 63, 0.1);
+}
+.btn-login {
+    background: #8b1e3f;
+    border-color: #8b1e3f;
+    min-height: 46px;
+    font-weight: 700;
+}
+.btn-login:hover,
+.btn-login:focus {
+    background: #741733;
+    border-color: #741733;
+}
+.login-links a {
+    color: #8b1e3f;
+    text-decoration: none;
+    font-weight: 600;
+}
+.login-links a:hover {
+    color: #741733;
+    text-decoration: underline;
+}
+
+.register-page {
+    width: 100%;
+    padding: 1.5rem 0;
+}
+.register-shell {
+    border: 0;
+    border-radius: 1.1rem;
+    overflow: hidden;
+    box-shadow: 0 16px 34px rgba(56, 28, 42, 0.16);
+}
+.register-brand-panel {
+    background: linear-gradient(145deg, #8b1e3f 0%, #b84b69 55%, #d5758f 100%);
+    color: #fff;
+    padding: 2rem 1.6rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.register-brand-title {
+    font-weight: 800;
+    letter-spacing: .2px;
+}
+.register-brand-subtitle {
+    color: rgba(255, 255, 255, 0.92);
+    margin-bottom: 0;
+}
+.register-brand-points {
+    margin: 1.1rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+.register-brand-points li {
+    margin-bottom: .55rem;
+    font-size: .9rem;
+}
+.register-brand-points i {
+    margin-right: .45rem;
+}
+.register-form-panel {
+    background: #fff;
+    padding: 1.65rem 1.35rem;
+}
+.register-heading {
+    color: #2f2430;
+    font-weight: 700;
+    margin-bottom: .25rem;
+}
+.register-subheading {
+    color: #7a5a66;
+    font-size: .92rem;
+    margin-bottom: 1.2rem;
+}
+.register-label {
+    color: #6d3e4f;
+    font-size: .82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .35px;
+    margin-bottom: .35rem;
+}
+.register-form-panel .form-control {
+    border: 1px solid #ead1d8;
+    min-height: 44px;
+    box-shadow: none;
+}
+.register-form-panel .form-control:focus {
+    border-color: #c78396;
+    box-shadow: 0 0 0 .2rem rgba(139, 30, 63, 0.1);
+}
+.btn-register {
+    background: #8b1e3f;
+    border-color: #8b1e3f;
+    min-height: 46px;
+    font-weight: 700;
+}
+.btn-register:hover,
+.btn-register:focus {
+    background: #741733;
+    border-color: #741733;
+}
+.register-links a {
+    color: #8b1e3f;
+    text-decoration: none;
+    font-weight: 600;
+}
+.register-links a:hover {
+    color: #741733;
+    text-decoration: underline;
+}
+
+.forgot-page {
+    width: 100%;
+    padding: 1.5rem 0;
+}
+.forgot-shell {
+    border: 0;
+    border-radius: 1.1rem;
+    overflow: hidden;
+    box-shadow: 0 16px 34px rgba(56, 28, 42, 0.16);
+}
+.forgot-brand-panel {
+    background: linear-gradient(145deg, #8b1e3f 0%, #b84b69 55%, #d5758f 100%);
+    color: #fff;
+    padding: 2rem 1.6rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.forgot-brand-title {
+    font-weight: 800;
+    letter-spacing: .2px;
+}
+.forgot-brand-subtitle {
+    color: rgba(255, 255, 255, 0.92);
+    margin-bottom: 0;
+}
+.forgot-brand-points {
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+.forgot-brand-points li {
+    margin-bottom: .55rem;
+    font-size: .9rem;
+}
+.forgot-brand-points i {
+    margin-right: .45rem;
+}
+.forgot-form-panel {
+    background: #fff;
+    padding: 1.75rem 1.4rem;
+}
+.forgot-heading {
+    color: #2f2430;
+    font-weight: 700;
+    margin-bottom: .25rem;
+}
+.forgot-subheading {
+    color: #7a5a66;
+    font-size: .92rem;
+    margin-bottom: 1.25rem;
+}
+.forgot-label {
+    color: #6d3e4f;
+    font-size: .82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .35px;
+    margin-bottom: .35rem;
+}
+.forgot-form-panel .form-control {
+    border: 1px solid #ead1d8;
+    min-height: 46px;
+    box-shadow: none;
+}
+.forgot-form-panel .form-control:focus {
+    border-color: #c78396;
+    box-shadow: 0 0 0 .2rem rgba(139, 30, 63, 0.1);
+}
+.btn-forgot {
+    background: #8b1e3f;
+    border-color: #8b1e3f;
+    min-height: 46px;
+    font-weight: 700;
+}
+.btn-forgot:hover,
+.btn-forgot:focus {
+    background: #741733;
+    border-color: #741733;
+}
+.forgot-links a {
+    color: #8b1e3f;
+    text-decoration: none;
+    font-weight: 600;
+}
+.forgot-links a:hover {
+    color: #741733;
+    text-decoration: underline;
+}
+
+@media (max-width: 991px) {
+    .login-brand-panel {
+        padding: 1.45rem 1.2rem;
+    }
+    .login-form-panel {
+        padding: 1.45rem 1.1rem;
+    }
+    .register-brand-panel {
+        padding: 1.45rem 1.2rem;
+    }
+    .register-form-panel {
+        padding: 1.35rem 1.05rem;
+    }
+    .forgot-brand-panel {
+        padding: 1.45rem 1.2rem;
+    }
+    .forgot-form-panel {
+        padding: 1.45rem 1.1rem;
+    }
+}

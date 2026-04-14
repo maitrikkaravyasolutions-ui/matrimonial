@@ -7,6 +7,8 @@
     <title>@yield('title')</title>
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/user_app.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/user_navbar.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/user_footer.css') }}" />
     
     @yield('style')
   </head>

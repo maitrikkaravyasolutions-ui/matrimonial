@@ -31,6 +31,16 @@ class HomeController extends Controller
     public function userlist(Request $request, $username)
     {
         $data = $this->homeService->getUserProfiles($request, $username);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('profile_data', [
+                    'profilelist' => $data['profilelist']
+                ])->render(),
+                'next_page' => $data['profilelist']->currentPage() + 1,
+                'has_more' => $data['profilelist']->hasMorePages()
+            ]);
+        }
         return view('user.profile_list', $data);
     }
 

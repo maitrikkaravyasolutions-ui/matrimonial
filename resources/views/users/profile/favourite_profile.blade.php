@@ -3,23 +3,27 @@
 @section('title') Favourite Profile @endsection
 
 @section('style')
-
-@endsection
 <link rel="stylesheet" href="{{ asset('css/fav_profile.css') }}" />
+@endsection
+
 @section('content')
-<div class="container mt-4">
-    <div class="row">
+<div class="container mt-4 mb-4">
+    <div class="favourite-page">
+    <div class="row g-4">
         <!-- LEFT: FILTERS -->
-        <div class="col-md-3">
-          <div class="card shadow-sm">
+        <div class="col-12 col-lg-3">
+          <div class="card filters-card filters-sticky">
             <div class="card-body">
-              <h5 class="mb-3">Filters</h5>
-              <button class="btn btn-outline-primary d-block d-md-none" type="button" id="filterToggleBtn">
+              <div class="mb-3">
+                <h5 class="filters-title mb-1">Filters</h5>
+                <p class="filters-subtitle mb-0">Refine your favourite profiles quickly.</p>
+              </div>
+              <button class="btn filter-toggle-btn d-block d-md-none mb-3" type="button" id="filterToggleBtn">
                 <i class="bi bi-chevron-compact-up"></i>
               </button>
-              <div class="accordion show" id="filterAccordion_full">
+              <div class="accordion collapse d-md-block show" id="filterAccordion_full">
                 <form method="get" name="filter_form" id="filter_form" action="{{ route('user.favourite_profile') }}">
-                  <div class="accordion" id="filterAccordion">
+                  <div class="accordion filter-accordion" id="filterAccordion">
                     <!-- Gender -->
                     <div class="accordion-item">
                       <h2 class="accordion-header">
@@ -139,9 +143,9 @@
                   </div>
 
                   <!-- Buttons -->
-                  <div class="gap-2 mt-3">
-                    <button class="btn btn-success">Apply Filters</button>
-                    <a href="{{ url()->current() }}" class="btn btn-outline-secondary mx-2">Reset Filters</a>
+                  <div class="d-grid gap-2 mt-3">
+                    <button class="btn btn-theme">Apply Filters</button>
+                    <a href="{{ url()->current() }}" class="btn btn-theme-outline">Reset Filters</a>
                   </div>
                   <input type="hidden" name="sort_by" id="sort_by" value="" />
                 </form>
@@ -151,25 +155,29 @@
         </div>
 
         <!-- RIGHT: FILTERS -->
-        <div class="col-md-9">
-            <section class="py-5">
-                <div class="container">
-
-                    <!-- Profiles Grid -->
-                    <div class="row g-4">
+        <div class="col-12 col-lg-9">
+            <section>
+                <div class="row g-4" id="favourite_profile_list">
                         @if(count($profilelist) > 0)
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="mb-0">Favourite Profiles</h5>
+                        <div class="card listing-card mb-2">
+                          <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-0">
+                            <div>
+                              <h5 class="listing-title mb-1">Favourite Profiles ({{ $favouriteProfilesCount ?? ''}})</h5>
+                              <p class="listing-subtitle mb-0">All your saved profiles in one responsive view.</p>
+                            </div>
 
                             <form method="get" name="search_profile" action="{{ route('user.favourite_profile') }}">
                               <input type="hidden" name="sort_by" id="" value="" />
-                                <select class="form-select w-auto m-2" name="sorting" id="sorting">
+                                <select class="form-select profiles-sort-select w-auto" name="sorting" id="sorting">
                                   <option value="latest" {{ request('sort_by') == 'latest' ? 'selected' : '' }}>Latest</option>
                                   <option value="age" {{ request('sort_by') == 'age' ? 'selected' : '' }}>Age</option>
                                   <option value="location" {{ request('sort_by') == 'location' ? 'selected' : '' }}>Location</option>
                                 </select>
                             </form>
                           </div>
+                          </div>
+                        </div>
                             @foreach($profilelist as $fav)
                                 @php 
                                   $profile = $fav->profile; 
@@ -182,30 +190,32 @@
                                         <div class="row g-0 align-items-center">
 
                                             <!-- Image -->
-                                            <div class="col-4 text-center p-2">
+                                            <div class="col-12 col-sm-4 text-center">
+                                                <div class="profile-media">
                                                 @if($profile?->profile_photo?->image)
                                                     <img src="{{ asset('/profile_photos/'.$profile->profile_photo->image) }}"
-                                                         class="img-fluid rounded profile-img">
+                                                         class="img-fluid profile-img">
                                                 @else
                                                     @if($profile->gender == "Male")
-                                                      <img src="{{ asset('/assets/img/man.png') }}" alt="user-avatar" class="img-circle img-fluid">
+                                                      <img src="{{ asset('/assets/img/man.png') }}" alt="user-avatar" class="img-fluid profile-img">
                                                     @else
-                                                      <img src="{{ asset('/assets/img/women.png') }}" alt="user-avatar" class="img-circle img-fluid">
+                                                      <img src="{{ asset('/assets/img/women.png') }}" alt="user-avatar" class="img-fluid profile-img">
                                                     @endif
                                                 @endif
+                                                </div>
                                             </div>
 
                                             <!-- Content -->
-                                            <div class="col-8">
-                                                <div class="card-body py-2">
-                                                    <h6 class="mb-1 fw-bold">
+                                            <div class="col-12 col-sm-8">
+                                                <div class="card-body profile-card-body">
+                                                    <h6 class="profile-name mb-2">
                                                         {{ $profile->first_name }} {{ $profile->last_name }}
                                                     </h6>
 
-                                                    <small class="text-muted d-block">
-                                                        Occupation: {{ $profile->occupation ?? 'N/A' }},<br/>
-                                                        Age: {{ $profile->age ?? 'N/A' }} Years,<br/>
-                                                        Address: {{ $shortAddress }}
+                                                    <small class="profile-summary d-block">
+                                                        <strong>Occupation:</strong> {{ $profile->occupation ?? 'N/A' }}<br/>
+                                                        <strong>Age:</strong> {{ $profile->age ?? 'N/A' }} Years<br/>
+                                                        <strong>Address:</strong> {{ $shortAddress }}
                                                         <span class="full-text d-none">{{ $fullAddress }}</span>
                                                     </small>
 
@@ -213,12 +223,16 @@
                                                     <!-- Buttons -->
                                                     <div class="mt-2 d-flex gap-2 flex-wrap">
                                                         <a href="{{ route('user.getprofile',$profile->id) }}"
-                                                           class="btn btn-success btn-sm flex-fill">
+                                                           class="btn btn-theme btn-sm flex-fill">
                                                             View Profile
                                                         </a>
                                                         @if(Auth::user()?->role == "User")
-                                                          <button class="btn btn-danger btn-sm flex-fill" onclick="BookmarkFunction({{ $profile->id }},this)">
-                                                                ❤️ Favourited
+                                                          <button
+                                                            class="favourite-heart-btn"
+                                                            onclick="BookmarkFunction({{ $profile->id }},this)"
+                                                            aria-label="Remove from favourites"
+                                                            title="Remove from favourites">
+                                                                <i class="bi bi-heart-fill"></i>
                                                           </button>
                                                         @endif
                                                     </div>
@@ -229,18 +243,21 @@
                                 </div>
                             @endforeach
                         </div>
-                        <nav class="mt-3">
+                        {{-- <nav class="mt-3">
                             <ul class="pagination justify-content-center">
                               {{ $profilelist->links() }}
                             </ul>
-                        </nav>
+                        </nav> --}}
                       @else
-                        <h2 class="text-center">No Record Found</h2>
+                        <div class="empty-state text-center">
+                          <h5 class="mb-1">No Record Found</h5>
+                          <p class="mb-0">Try adjusting filters to see favourite profiles.</p>
+                        </div>
                       @endif
                     </div>
-                </div>
             </section>
         </div>
+    </div>
     </div>
 </div>
 

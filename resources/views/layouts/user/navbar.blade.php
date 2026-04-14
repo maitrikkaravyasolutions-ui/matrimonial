@@ -1,24 +1,19 @@
-<nav class="navbar navbar-expand-lg bg-white shadow-sm py-2">
+
+<nav class="navbar navbar-expand-lg sticky-top site-navbar py-2">
   <div class="container">
 
-    <!-- Logo -->
-    <a class="navbar-brand fw-bold d-flex align-items-center" href="{{ route('/') }}">
-      <span class="me-2">🏠</span> Matrimonial
+    <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('/') }}">
+      <span class="brand-badge"><i class="bi bi-heart-fill"></i></span>
+      <span>Matrimonial</span>
     </a>
 
-    <!-- Mobile Toggle -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- Menu -->
     <div class="collapse navbar-collapse" id="navbarText">
-
-      <!-- Left Menu -->
-      
-      <!-- Right Button -->
       <div class="ms-auto">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav align-items-lg-center gap-lg-1">
           @if(Auth::user()?->role=="User")
             <li class="nav-item">
               <a class="nav-link" href="{{ route('users.create_profile') }}">My Profile</a>
@@ -29,9 +24,9 @@
               <a class="nav-link" href="{{ route('admin.dashboard.index') }}">Dashboard</a>
             </li>
           @endif
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('/') }}">Home</a>
-            </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('/') }}">Home</a>
+          </li>
           @if(Auth::user()?->role=="User")
             <li class="nav-item">
               <a class="nav-link" href="{{ route('user.favourite_profile') }}">Favourite Profile</a>
@@ -44,32 +39,22 @@
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-
-                    {{-- <a class="dropdown-item" href="{{ route('change-password') }}">{{ __('Change Password') }}</a> --}}
-
-
-                    {{-- <a class="dropdown-item" href="{{ route('logout') }}"
+                    <a class="dropdown-item" href="{{ route('logout') }}"
                        onclick="event.preventDefault();
                                      document.getElementById('logout-form').submit();">
                         {{ __('Logout') }}
-                    </a> --}}
-
-                    <a class="dropdown-item logout-btn" href="#">
-                        {{ __('Logout') }}
                     </a>
-
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
                 </div>
-            </li>
+              </li>
           @else
-              <a
-                  href="{{ route('login') }}"
-                  class="btn btn-success px-3"
-              >
-                  Log in
-              </a>
+              <li class="nav-item mt-2 mt-lg-0 ms-lg-2">
+                <a href="{{ route('login') }}" class="btn-nav-login">
+                    Log in
+                </a>
+              </li>
           @endauth
         </ul>
       </div>

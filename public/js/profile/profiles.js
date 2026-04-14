@@ -43,7 +43,7 @@ function loadMore() {
 
             if (!res.has_more) {
                 hasMore = false;
-                $('#profile_list').append("<h3>No More Record found</h3>");
+                $('#profile_list').append("<h3 class='text-center'>No More Record found</h3>");
             }
 
             loading = false;
@@ -90,13 +90,29 @@ function BookmarkFunction(profileId, el) {
       .then(res => res.json())
       .then(data => {
           if (data.status === 'added') {
-              swal.fire("Good job!", "Pofile Added in Favourite", "success");
-              el.innerText = '❤️ Favourited';
+              swal.fire({
+                  title: "Good job!",
+                  text: "Pofile Added in Favourite",
+                  icon: "success",
+                  returnFocus: false
+              });
+              el.innerHTML = '<i class="bi bi-heart-fill"></i>';
+              el.setAttribute('aria-label', 'Remove from favourites');
+              el.setAttribute('title', 'Remove from favourites');
 
           } else {
-              swal.fire("Good job!", "Pofile Removed from Favourite", "success");
-              el.innerText = '❤️';
+              swal.fire({
+                  title: "Good job!",
+                  text: "Pofile Removed from Favourite",
+                  icon: "success",
+                  returnFocus: false
+              });
+              el.innerHTML = '<i class="bi bi-heart"></i>';
+              el.setAttribute('aria-label', 'Add to favourites');
+              el.setAttribute('title', 'Add to favourites');
           }
+          // Prevent persistent focus style from overriding default colors.
+          el.blur();
 
       });
     }else{

@@ -278,5 +278,10 @@ class ProfileRepository implements ProfileRepositoryInterface
             ->distinct()
             ->get();
     }
+
+    public function getFavouriteProfilesCount($userId, Request $request)
+    {
+        return FavouriteProfile::where('user_id', $userId)->count();
+    }
 }
 

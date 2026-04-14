@@ -311,4 +311,12 @@ class ProfileService
     {
         return $this->profileRepository->getFavouriteCities($userId);
     }
+
+    public function getFavouriteProfilesData($userId, Request $request)
+    {
+        $profilelist = $this->profileRepository->getFavouriteProfiles($userId, $request);
+        $cityList = $this->profileRepository->getFavouriteCities($userId);
+        $favouriteProfilesCount = $this->profileRepository->getFavouriteProfilesCount($userId, $request);
+        return compact('profilelist', 'cityList', 'favouriteProfilesCount');
+    }
 }

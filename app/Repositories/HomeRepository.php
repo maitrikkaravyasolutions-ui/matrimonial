@@ -8,16 +8,16 @@ use Illuminate\Support\Facades\DB;
 use Auth;
 
 class HomeRepository implements HomeRepositoryInterface
-{
+{    
     public function getProfiles($request)
     {
         $userId = Auth::id();
         $query = Profile::with('mosals')
-        ->withCount([
-            'favourites as is_favourite' => function ($q) use ($userId) {
-                $q->where('user_id', $userId);
-            }
-        ]);
+            ->withCount([
+                'favourites as is_favourite' => function ($q) use ($userId) {
+                    $q->where('user_id', $userId);
+                }
+            ]);
 
         // Filters
         if (!empty($request->gender)) {
@@ -61,28 +61,28 @@ class HomeRepository implements HomeRepositoryInterface
             });
         }
 
+        // Sorting
         if (!empty($request->sort_by)) {
-
             if ($request->sort_by == "age") {
                 $query->orderBy('age', 'asc');
             }
-
-            elseif ($request->sort_by == "location") {
+            if ($request->sort_by == "location") {
                 $query->orderBy('current_address', 'asc');
             }
-
-            elseif ($request->sort_by == "latest") {
+            if ($request->sort_by == "latest") {
                 $query->latest();
             }
-
         } else {
             $query->latest();
         }
 
-        return $query->where('profile_status',1)->where(function ($query) use ($userId) {
-        $query->where('user_id', '!=', $userId)
-              ->orWhereNull('user_id');
-        })->orderBy('id', 'desc')->paginate(12)->appends($request->all());
+        return $query->where('profile_status',1)
+            // ->where(function ($q) use ($userId) {
+            //     $q->where('user_id', '!=', $userId)
+            //       ->orWhereNull('user_id');
+            // })
+            ->orderBy('id', 'desc')
+            ->paginate(10);
     }
 
     public function getCityList()

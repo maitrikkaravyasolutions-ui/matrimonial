@@ -6,56 +6,67 @@ Home Page
 
 @section('style')
 <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+<link rel="stylesheet" href="{{ asset('css/user_how_it_works_section.css') }}">
+<link rel="stylesheet" href="{{ asset('css/user_search_section.css') }}">
+<link rel="stylesheet" href="{{ asset('css/user_welcome.css') }}">
 @endsection
 
 @section('content')
   @include('layouts.user.search')
 
-  <section class="py-5">
-      <div class="container">
+  <section class="py-5 home-profiles-section">
+      <div class="container home-profiles-wrap">
 
-          <!-- Header -->
-          <div class="d-flex justify-content-between align-items-center mb-4">
-              <h4 class="fw-bold mb-0">Profiles</h4>
-              <a href="{{ route('user.profiles') }}" class="btn btn-outline-primary btn-sm">
-                  View All
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4 home-section-head">
+              <div>
+                  <span class="home-section-badge">Most Viewed Matches</span>
+                  <h4 class="fw-bold mb-0">Featured Profiles</h4>
+                  <p class="home-section-subtitle mb-0">Explore verified profiles curated by preference and activity.</p>
+              </div>
+              <a href="{{ route('user.profiles') }}" class="btn btn-theme-outline btn-sm px-3">
+                  <i class="bi bi-grid me-1"></i> View All
               </a>
           </div>
 
-          <!-- Profiles Grid -->
           <div class="row g-4">
 
               @forelse($profilelist as $profile)
                   <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                      <div class="card profile-card h-100 shadow-sm border-0">
-
-                          <!-- Image -->
-                          <div class="position-relative">
+                      <div class="card profile-card clickable-profile-card h-100 border-0" data-profile-url="{{ route('user.getprofile',$profile->id) }}">
+                          <div class="profile-image-wrap">
                               @if($profile?->profile_photo?->image)
-                                <img src="{{ asset('/profile_photos/'.$profile->profile_photo->image) }}" alt="user-avatar" class="img-circle img-fluid card-image-top h-255">
+                                <img src="{{ asset('/profile_photos/'.$profile->profile_photo->image) }}" alt="user-avatar" class="profile-image">
                                 @else
                                   @if($profile->gender == "Male")
-                                  <img src="{{ asset('/assets/img/man.png') }}" alt="user-avatar" class="img-circle img-fluid h-255">
+                                  <img src="{{ asset('/assets/img/man.png') }}" alt="user-avatar" class="profile-image">
                                   @else
-                                  <img src="{{ asset('/assets/img/women.png') }}" alt="user-avatar" class="img-circle img-fluid h-255">
+                                  <img src="{{ asset('/assets/img/women.png') }}" alt="user-avatar" class="profile-image">
                                   @endif
                               @endif
                           </div>
 
-                          <!-- Content -->
                           <div class="card-body text-start">
-                              <h6 class="fw-semibold mb-1">
-                                  {{ $profile->first_name }} {{ $profile->last_name }},
+                              <h6 class="profile-name">
+                                  {{ $profile->first_name }} {{ $profile->last_name }}
                               </h6>
-                              <p class="text-muted small mb-2">
-                                  Age: {{ $profile->age }} <br> 
-                                  Occupation: {{ $profile->occupation }} <br>
-                                  Address: {{ $profile->current_address }}, {{ $profile->city->name }},{{ $profile->state->name }}
-                              </p>
+                              <div class="profile-meta">
+                                  <div class="profile-meta-item">
+                                      <i class="bi bi-hourglass-split"></i>
+                                      <span><strong>Age:</strong> {{ $profile->age ?? '-' }} Years</span>
+                                  </div>
+                                  <div class="profile-meta-item">
+                                      <i class="bi bi-briefcase"></i>
+                                      <span><strong>Occupation:</strong> {{ $profile->occupation ?? '-' }}</span>
+                                  </div>
+                                  <div class="profile-location">
+                                      <i class="bi bi-geo-alt me-1"></i>
+                                      {{ $profile->current_address ?? '-' }}, {{ $profile->city->name ?? '-' }}, {{ $profile->state->name ?? '-' }}
+                                  </div>
+                              </div>
                               <div class="mt-2 d-flex gap-2 flex-wrap">
                                   <a href="{{ route('user.getprofile',$profile->id) }}"
-                                     class="btn btn-success flex-fill">
-                                      View Profile
+                                     class="btn btn-theme view-profile-btn flex-fill">
+                                      <i class="bi bi-person-lines-fill me-1"></i> View Profile
                                   </a>
                               </div>
                           </div>
@@ -65,7 +76,9 @@ Home Page
                       </div>
                   </div>
               @empty
-                  <p class="text-center">No Record Found.</p>
+                  <div class="col-12">
+                    <p class="text-center empty-state mb-0">No record found.</p>
+                  </div>
               @endforelse
           </div>
       </div>
@@ -77,6 +90,19 @@ Home Page
 @section('js')
 <script>
 window.loggedIn = {{ auth()->check() ? 'true' : 'false' }};
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.clickable-profile-card').forEach(function (card) {
+    card.addEventListener('click', function (e) {
+      if (e.target.closest('a, button, input, select, textarea, label')) {
+        return;
+      }
+      const url = card.getAttribute('data-profile-url');
+      if (url) {
+        window.location.href = url;
+      }
+    });
+  });
+});
 </script>
 <script type="text/javascript" src="{{ asset('js/profile/common.js') }}"></script>
 @endsection

@@ -51,10 +51,9 @@ class ProfileController extends Controller
     public function update_profile(updateProfileRequest $request,$id)
     {
         $userId = auth()->id();
-
         $profile = $this->profileservice->getProfileByUserId($userId);
         $request->merge(['profile_id' => $profile->id]);
-        $this->profileservice->updateFavProfile($request);
+        $this->profileservice->updateProfile($request);
 
         return redirect()->back()->with('success', 'Profile updated successfully');
     }
@@ -74,12 +73,20 @@ class ProfileController extends Controller
 
     public function favourite_profile_list(Request $request)
     {
-        $userId = auth()->id();
+        $data = $this->profileservice->getFavouriteProfilesData(auth()->id(), $request);
 
-        $profilelist = $this->profileservice->getFavouriteProfiles($userId, $request);
-        $cityList = $this->profileservice->getFavouriteCities($userId);
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('users.profile.favourite_profile_data', [
+                    'profilelist' => $data['profilelist']
+                ])->render(),
+                'next_page' => $data['profilelist']->currentPage() + 1,
+                'has_more' => $data['profilelist']->hasMorePages()
+            ]);
+        }
 
-        return view('users.profile.favourite_profile', compact('profilelist', 'cityList'));
+        return view('users.profile.favourite_profile',$data);
+
     }
 
         

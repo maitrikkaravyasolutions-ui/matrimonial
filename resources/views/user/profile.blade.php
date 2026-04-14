@@ -7,13 +7,14 @@
 @section('content')
 <section class="content">
       <div class="container-fluid">
+        <div class="profile-admin-page">
         <div class="row g-4">
           <div class="col-md-3">
 
             <!-- Profile Image -->
-            <div class="card card-primary card-outline">
+            <div class="card profile-sidebar-card">
               <div class="card-body box-profile">
-                <div class="text-center">
+                <div class="text-center profile-avatar-wrap">
                     @if($profile?->profile_photo?->image)
                       <img class="profile-user-img img-fluid img-circle hw-200" src="{{ asset('/profile_photos/'.$profile->profile_photo->image) }}" alt="User profile picture">
                     @else
@@ -26,9 +27,9 @@
                 </div>
                 
 
-                <h3 class="profile-username text-center mt-2">{{ $profile->first_name }} {{ $profile->last_name }}</h3>
+                <h3 class="profile-username profile-name text-center mt-3 mb-1">{{ $profile->first_name }} {{ $profile->last_name }}</h3>
 
-                <p class="text-muted text-center">{{ $profile->date_of_birth }}</p>
+                <p class="text-muted profile-dob text-center mb-0">{{ $profile->date_of_birth }}</p>
               </div>
 
             </div>
@@ -36,15 +37,15 @@
           </div>
           <!-- /.col -->
           <div class="col-md-9">
-            <div class="card card-info card-outline mb-4">
+            <div class="card profile-main-card mb-4">
                 <!--begin::Header-->
-                <div class="card-header d-flex align-items-center">
+                <div class="card-header profile-main-header d-flex align-items-center flex-wrap">
     
-                    <div class="card-title h3 mb-0 flex-grow-1">
+                    <div class="card-title profile-main-title h3 mb-0 flex-grow-1">
                         Profile Details
                     </div>
 
-                    <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary">
+                    <a href="{{ url()->previous() }}" class="btn btn-sm btn-theme-outline">
                         <i class="bi bi-arrow-left"></i> Back
                     </a>
 
@@ -432,10 +433,12 @@
                                     <div class="accordion-body p-0 mt-3">
 
                                         @if(count($profile->gallery_photo) > 0)
-                                            @foreach($profile->gallery_photo as $gallery_photo)
-                                                <img src="{{ asset('/gallery_photo/'.$gallery_photo->image) }}"
-                                                     class="img-thumbnail w-25" />
-                                            @endforeach
+                                            <div class="gallery-grid">
+                                                @foreach($profile->gallery_photo as $gallery_photo)
+                                                    <img src="{{ asset('/gallery_photo/'.$gallery_photo->image) }}"
+                                                         class="gallery-thumb" />
+                                                @endforeach
+                                            </div>
                                         @else
                                             <h5 class="text-center">No other images</h5>
                                         @endif
@@ -450,6 +453,7 @@
             </div>
           </div>
           <!-- /.col -->
+        </div>
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->

@@ -736,7 +736,7 @@ Create Profile
   function loadStates(countryId){
     if(countryId){
       $.ajax({
-        url : "/states/" + id,
+        url : "/states",
         data:{'id':countryId},
         success: function(result){
           $('#state_id').empty();
