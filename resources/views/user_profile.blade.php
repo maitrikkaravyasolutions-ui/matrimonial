@@ -29,7 +29,7 @@ User Detail Page
 
           <!-- NAME & INFO -->
           <div class="col-8 col-md-9">
-              <h4 class="mb-1">{{ $profile->first_name }} {{ $profile->last_name }}, {{ $profile->age }}</h4>
+              <h4 class="mb-1">{{ $profile->first_name }} {{ $profile->middle_name }} {{ $profile->last_name }}</h4>
               <p class="text-muted mb-2">{{ $profile->city->name ?? '' }} | {{ $profile->occupation ?? '' }}</p>
 
               <!-- LEFT & RIGHT BUTTONS -->
@@ -168,6 +168,8 @@ User Detail Page
 @endsection
 
 @section('js')
+<script>
 window.loggedIn = {{ auth()->check() ? 'true' : 'false' }};
+</script>
 <script type="text/javascript" src="{{ asset('js/profile/common.js') }}"></script>
 @endsection

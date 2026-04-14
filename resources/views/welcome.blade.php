@@ -75,6 +75,8 @@ Home Page
 @endsection
 
 @section('js')
+<script>
 window.loggedIn = {{ auth()->check() ? 'true' : 'false' }};
+</script>
 <script type="text/javascript" src="{{ asset('js/profile/common.js') }}"></script>
 @endsection

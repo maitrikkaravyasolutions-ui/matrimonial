@@ -43,6 +43,7 @@ function loadMore() {
 
             if (!res.has_more) {
                 hasMore = false;
+                $('#profile_list').append("<h3>No More Record found</h3>");
             }
 
             loading = false;
