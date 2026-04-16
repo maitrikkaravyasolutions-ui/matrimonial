@@ -14,7 +14,6 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="{{ asset('css/user_navbar.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/user_footer.css') }}" />
     @yield('style')
   </head>
   <body class="d-flex flex-column min-vh-100">

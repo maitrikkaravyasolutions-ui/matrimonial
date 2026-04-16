@@ -1,3 +1,14 @@
+document.getElementById('searchForm').addEventListener('submit', function(e) {
+    let age = document.getElementById('age_range').value;
+    document.getElementById('min_age').value = '';
+    document.getElementById('max_age').value = '';
+    if (age) {
+        let parts = age.split('-');
+        document.getElementById('min_age').value = parts[0];
+        document.getElementById('max_age').value = parts[1];
+    }
+});
+
 document.getElementById('search_profile').addEventListener('submit', function(e) {
     let minAge = document.getElementById('min_age').value;
     let maxAge = document.getElementById('max_age').value;
@@ -11,22 +22,11 @@ document.getElementById('search_profile').addEventListener('submit', function(e)
     }
 });
 
-document.getElementById('searchForm').addEventListener('submit', function(e) {
-
-    let age = document.getElementById('age_range').value;
-    document.getElementById('min_age').value = '';
-    document.getElementById('max_age').value = '';
-    if (age) {
-        let parts = age.split('-');
-
-        document.getElementById('min_age').value = parts[0];
-        document.getElementById('max_age').value = parts[1];
-    }
-});
 
 function BookmarkFunction(profileId, el) {
     if(window.loggedIn == true)
     {
+        el.disabled = true;
         fetch(`/user/profile/favourite`, {
             method: "POST",
             headers: {
@@ -37,21 +37,95 @@ function BookmarkFunction(profileId, el) {
                 profile_id: profileId
             })
         })
-        .then(res => res.json())
-        .then(data => {
+        .then(async (res) => {
+            const contentType = res.headers.get("content-type") || "";
 
-            if (data.status === 'added') {
-                el.classList.remove('bi-bookmarks');
-                el.classList.add('bi-bookmark-fill', 'text-danger');
-            } else {
-                el.classList.remove('bi-bookmarks-fill', 'text-danger');
-                el.classList.add('bi-bookmark');
+            if (res.redirected || contentType.includes("text/html")) {
+                const redirectUrl = res.url || "/email/verify";
+                throw { type: "verification_redirect", redirectUrl };
             }
 
+            if (!res.ok) {
+                let message = "Unable to update favourite profile.";
+                try {
+                    const errorData = await res.json();
+                    message = errorData.message || message;
+                } catch (e) {}
+                throw { type: "request_error", message };
+            }
+
+            return res.json();
+        })
+        .then(data => {
+            const icon = el.querySelector('i');
+
+            if (data.status === 'added') {
+                if (icon) {
+                    icon.classList.remove('bi-heart');
+                    icon.classList.add('bi-heart-fill');
+                }
+                el.setAttribute('aria-label', 'Remove from favourites');
+                el.setAttribute('title', 'Remove from favourites');
+                Swal.fire({
+                  title: 'Good job!',
+                  text: 'Pofile Added in Favourite',
+                  icon: 'success',
+                  confirmButtonText: 'OK',
+                  confirmButtonColor: '#8b1e3f',
+                  returnFocus: false,
+                });
+            } else {
+                if (icon) {
+                    icon.classList.remove('bi-heart-fill');
+                    icon.classList.add('bi-heart');
+                }
+                el.setAttribute('aria-label', 'Add to favourites');
+                el.setAttribute('title', 'Add to favourites');
+                Swal.fire({
+                  title: 'Good job!',
+                  text: 'Pofile Removed from Favourite',
+                  icon: 'success',
+                  confirmButtonText: 'OK',
+                  confirmButtonColor: '#8b1e3f',
+                  returnFocus: false,
+                });
+            }
+            el.disabled = false;
+            el.blur();
+        })
+        .catch((error) => {
+            el.disabled = false;
+            if (error?.type === "verification_redirect") {
+                Swal.fire({
+                    title: "Email verification required",
+                    text: "Please verify your email to add profiles to favourites.",
+                    icon: "warning",
+                    confirmButtonText: "Verify Email"
+                }).then(() => {
+                    window.location.href = error.redirectUrl;
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: "Something went wrong",
+                text: error?.message || "Unable to update favourite profile right now.",
+                icon: "error"
+            });
         });
     }else{
-        swal.fire({
-          title: "Please Login to add profile",
+        Swal.fire({
+          title: "<strong>Login Required</strong>",
+          icon: "info",
+          text: "Login required to add favourites.",
+          showCloseButton: true,
+          focusConfirm: false,
+          confirmButtonText: 'Login',
+          confirmButtonColor: '#8b1e3f'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "/login";
+          }
         });
     }
 }

@@ -25,7 +25,7 @@ class HomeRepository implements HomeRepositoryInterface
         }
 
         if (!empty($request->city)) {
-            $query->where('city_id', $request->city);
+            $query->whereIn('city_id', $request->city);
         }
 
         if (!empty($request->min_age)) {
@@ -37,7 +37,7 @@ class HomeRepository implements HomeRepositoryInterface
         }
 
         if (!empty($request->marital_status)) {
-            $query->where('marital_status', $request->marital_status);
+            $query->whereIn('marital_status', $request->marital_status);
         }
 
         if (!empty($request->education)) {
@@ -56,7 +56,6 @@ class HomeRepository implements HomeRepositoryInterface
                   ->orWhere('last_name', 'LIKE', "%$s%")
                   ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$s}%"])
                   ->orWhere('education', 'LIKE', "%$s%")
-                  ->orWhere('caste', 'LIKE', "%$s%")
                   ->orWhere('occupation', 'LIKE', "%$s%");
             });
         }

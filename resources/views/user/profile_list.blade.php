@@ -12,6 +12,18 @@
         <div class="card filters-card filters-sticky">
           <div class="card-body">
             <div class="mb-3">
+              <h5 class="filters-title mb-1">Quick Search</h5>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                form="search_profile"
+                class="form-control"
+                value="{{ request('name') }}"
+                placeholder="Search by name, education, or profession"
+              />
+            </div>
+            <div class="mb-3">
               <h5 class="filters-title mb-1">Filters</h5>
               <p class="filters-subtitle mb-0">Refine profiles by your preferences.</p>
             </div>
@@ -87,18 +99,6 @@
                   </div>
                 </div>
 
-                <div class="accordion-item">
-                  <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#searchCollapse">
-                      Religion / Name / Profession
-                    </button>
-                  </h2>
-                  <div id="searchCollapse" class="accordion-collapse collapse">
-                    <div class="accordion-body">
-                      <input type="text" id="name" name="name" class="form-control" value="{{ request('name') }}" placeholder="Search" />
-                    </div>
-                  </div>
-                </div>
               </div>
 
               <div class="d-grid gap-2 mt-3">
@@ -235,7 +235,7 @@
 
                 if (!res.has_more) {
                     hasMore = false;
-                    $('#profile_list_items').append("<h3 class='text-center'>No More Record found</h3>");
+                    $('#profile_list_items').append("<span class='text-center' style='font-size=0.86rem'>No More Record found</span>");
                 }
 
                 loading = false;

@@ -12,6 +12,9 @@ use App\Repositories\ProfileRepository;
 use App\Services\ProfileService;
 use App\Repositories\HomeRepositoryInterface;
 use App\Repositories\HomeRepository;
+use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Auth\Notifications\VerifyEmail;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,7 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(ProfileRepositoryInterface::class, ProfileRepository::class);
         $this->app->bind(HomeRepositoryInterface::class, HomeRepository::class);
@@ -39,5 +41,27 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrap();
+        ResetPassword::toMailUsing(function ($notifiable, $token) {
+
+            $url = url(route('password.reset', [
+                'token' => $token,
+                'email' => $notifiable->getEmailForPasswordReset(),
+            ], false));
+
+            return (new MailMessage)
+                ->subject('Reset Your Password')
+                ->view('emails.reset-password', [
+                    'url' => $url,
+                    'user' => $notifiable
+                ]);
+        });
+        VerifyEmail::toMailUsing(function ($notifiable, $url) {
+            return (new MailMessage)
+                ->subject('Verify Your Email Address')
+                ->view('emails.verify-email', [
+                    'url' => $url,
+                    'user' => $notifiable
+                ]);
+        });
     }
 }

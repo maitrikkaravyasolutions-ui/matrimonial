@@ -6,12 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Auth;
 
 class ChangePasswordController extends Controller
 {
     public function changePassword()
     {
-       return view('auth.passwords.change');
+       if(Auth::user()->role == "User")
+       {
+        return view('auth.passwords.user_change_password');
+       }else{
+        return view('auth.passwords.change');
+       }
     }
 
     public function updatePassword(Request $request)

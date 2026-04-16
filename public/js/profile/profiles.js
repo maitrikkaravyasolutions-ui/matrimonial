@@ -43,7 +43,7 @@ function loadMore() {
 
             if (!res.has_more) {
                 hasMore = false;
-                $('#profile_list').append("<h3 class='text-center'>No More Record found</h3>");
+                $('#profile_list').append("<span class='text-center' style='font-size=0.86rem'>No More Record found</span>");
             }
 
             loading = false;
@@ -87,14 +87,33 @@ function BookmarkFunction(profileId, el) {
               profile_id: profileId
           })
       })
-      .then(res => res.json())
+      .then(async (res) => {
+          const contentType = res.headers.get("content-type") || "";
+
+          if (res.redirected || contentType.includes("text/html")) {
+              const redirectUrl = res.url || "/email/verify";
+              throw { type: "verification_redirect", redirectUrl };
+          }
+
+          if (!res.ok) {
+              let message = "Unable to update favourite profile.";
+              try {
+                  const errorData = await res.json();
+                  message = errorData.message || message;
+              } catch (e) {}
+              throw { type: "request_error", message };
+          }
+
+          return res.json();
+      })
       .then(data => {
           if (data.status === 'added') {
               swal.fire({
                   title: "Good job!",
                   text: "Pofile Added in Favourite",
                   icon: "success",
-                  returnFocus: false
+                  returnFocus: false,
+                  confirmButtonColor: '#8b1e3f',
               });
               el.innerHTML = '<i class="bi bi-heart-fill"></i>';
               el.setAttribute('aria-label', 'Remove from favourites');
@@ -104,6 +123,7 @@ function BookmarkFunction(profileId, el) {
               swal.fire({
                   title: "Good job!",
                   text: "Pofile Removed from Favourite",
+                  confirmButtonColor: '#8b1e3f',
                   icon: "success",
                   returnFocus: false
               });
@@ -114,10 +134,39 @@ function BookmarkFunction(profileId, el) {
           // Prevent persistent focus style from overriding default colors.
           el.blur();
 
+      })
+      .catch((error) => {
+          if (error?.type === "verification_redirect") {
+              Swal.fire({
+                  title: "Email verification required",
+                  text: "Please verify your email to add profiles to favourites.",
+                  icon: "warning",
+                  confirmButtonText: "Verify Email"
+              }).then(() => {
+                  window.location.href = error.redirectUrl;
+              });
+              return;
+          }
+
+          Swal.fire({
+              title: "Something went wrong",
+              text: error?.message || "Unable to update favourite profile right now.",
+              icon: "error"
+          });
       });
     }else{
-        swal.fire({
-          title: "Please Login to add profile!",
+        Swal.fire({
+          title: "<strong>Login Required</strong>",
+          icon: "info",
+          text: "Login required to add favourites.",
+          showCloseButton: true,
+          focusConfirm: false,
+          confirmButtonText: 'Login',
+          confirmButtonColor: '#8b1e3f'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "/login";
+          }
         });
     }
 }

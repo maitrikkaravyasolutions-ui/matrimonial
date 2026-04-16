@@ -33,6 +33,18 @@ Matrimonial| Login Page
 
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
+
+                        @if(session('status'))
+                            <div class="alert alert-success">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+
+                        @if(session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                         <!-- Email -->
                         <div class="mb-3">
                             <div class="input-group login-input-group">
@@ -50,6 +62,14 @@ Matrimonial| Login Page
                                 <div class="invalid-feedback d-block">
                                     <strong>{{ $message }}</strong>
                                 </div>
+
+                                @if(session('verify_email'))
+                                    <div class="mt-2">
+                                        <button type="submit" form="resend-verification-form" class="btn btn-link p-0">
+                                            Verify Email / Resend Link
+                                        </button>
+                                    </div>
+                                @endif
                             @enderror
                         </div>
 
@@ -93,6 +113,12 @@ Matrimonial| Login Page
                             @endif
                         </div>
                     </form>
+                    @if(session('verify_email'))
+                        <form id="resend-verification-form" method="POST" action="{{ route('custom.verify.resend') }}" class="d-none">
+                            @csrf
+                            <input type="hidden" name="email" value="{{ session('verify_email') }}">
+                        </form>
+                    @endif
                         </div>
                     </div>
                 </div>

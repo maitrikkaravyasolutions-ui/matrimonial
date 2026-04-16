@@ -20,7 +20,7 @@ Home Page
           <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4 home-section-head">
               <div>
                   <span class="home-section-badge">Most Viewed Matches</span>
-                  <h4 class="fw-bold mb-0">Featured Profiles</h4>
+                  <h4 class="fw-bold mb-0">Profiles</h4>
                   <p class="home-section-subtitle mb-0">Explore verified profiles curated by preference and activity.</p>
               </div>
               <a href="{{ route('user.profiles') }}" class="btn btn-theme-outline btn-sm px-3">
@@ -102,6 +102,19 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+});
+
+$('#marital_status').select2({
+  placeholder: "Select a marital status",
+  allowClear: true,
+  width: '100%',
+  dropdownCssClass: 'search-select2-dropdown'
+});
+$('#city').select2({
+  placeholder: "Select a city",
+  allowClear: true,
+  width: '100%',
+  dropdownCssClass: 'search-select2-dropdown'
 });
 </script>
 <script type="text/javascript" src="{{ asset('js/profile/common.js') }}"></script>

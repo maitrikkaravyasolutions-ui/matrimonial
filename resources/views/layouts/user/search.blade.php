@@ -10,7 +10,7 @@
             <form id="searchForm" action="{{ route('user.profiles') }}" method="GET">
                 <div class="row g-3 align-items-end">
                     <!-- Looking For -->
-                    <div class="col-12 col-sm-6 col-lg-2">
+                    <div class="col-12 col-sm-6 col-lg-2 search-field-col">
                         <label class="search-field-label">Looking For</label>
                         <div class="search-input-wrap">
                             <select name="gender" class="form-select">
@@ -24,7 +24,7 @@
                     <input type="hidden" name="max_age" id="max_age">
 
                     <!-- Age -->
-                    <div class="col-12 col-sm-6 col-lg-2">
+                    <div class="col-12 col-sm-6 col-lg-2 search-field-col">
                         <label class="search-field-label">Age Range</label>
                         <div class="search-input-wrap">
                             <select name="age" id="age_range" class="form-select">
@@ -42,35 +42,33 @@
                     </div>
 
                     <!-- Marital Status -->
-                    <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="col-12 col-sm-6 col-lg-3 search-field-col">
                         <label class="search-field-label">Marital Status</label>
                         <div class="search-input-wrap">
-                            <select class="form-select" id="marital_status" name="marital_status">
-                                <option selected value="">Marital Status</option>
-                                <option value="Never_Married" <?php if(isset($_GET['marital_status']) && $_GET['marital_status'] == 'Never_Married') echo 'selected'; ?>>Never Married</option>
-                                <option value="Divorced" <?php if(isset($_GET['marital_status']) && $_GET['marital_status'] == 'Divorced') echo 'selected'; ?>>Divorced</option>
-                                <option value="Widowed" <?php if(isset($_GET['marital_status']) && $_GET['marital_status'] == 'Widowed') echo 'selected'; ?>>Widowed</option>
-                                <option value="Mithi_Jibh_Cancel" <?php if(isset($_GET['marital_status']) && $_GET['marital_status'] == 'Mithi_Jibh_Cancel') echo 'selected'; ?>>Mithi Jibh Cancel</option>
-                                <option value="Broken_Engagement" <?php if(isset($_GET['marital_status']) && $_GET['marital_status'] == 'Broken_Engagement') echo 'selected'; ?>>Broken Engagement</option>
+                            <select class="form-select search-select2" id="marital_status" name="marital_status[]" multiple="multiple" data-placeholder="Select marital status">
+                                <option value="Never_Married" {{ in_array('Never_Married', (array) request('marital_status', [])) ? 'selected' : '' }}>Never Married</option>
+                                <option value="Divorced" {{ in_array('Divorced', (array) request('marital_status', [])) ? 'selected' : '' }}>Divorced</option>
+                                <option value="Widowed" {{ in_array('Widowed', (array) request('marital_status', [])) ? 'selected' : '' }}>Widowed</option>
+                                <option value="Mithi_Jibh_Cancel" {{ in_array('Mithi_Jibh_Cancel', (array) request('marital_status', [])) ? 'selected' : '' }}>Mithi Jibh Cancel</option>
+                                <option value="Broken_Engagement" {{ in_array('Broken_Engagement', (array) request('marital_status', [])) ? 'selected' : '' }}>Broken Engagement</option>
                             </select>
                         </div>
                     </div>
 
                     <!-- City -->
-                    <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="col-12 col-sm-6 col-lg-3 search-field-col">
                         <label class="search-field-label">Location</label>
                         <div class="search-input-wrap">
-                            <select class="form-select" id="city" name="city">
-                                <option selected value="">City</option>
+                            <select class="form-select search-select2" id="city" name="city[]" multiple="multiple" data-placeholder="Select city">
                                 @foreach($cityList as $city)
-                                    <option value="{{ $city->id }}" <?php echo (isset($_GET['city']) && $_GET['city'] == $city->id) ? 'selected' : ''; ?>>{{ $city->name }}</option>
+                                    <option value="{{ $city->id }}" {{ in_array((string) $city->id, array_map('strval', (array) request('city', []))) ? 'selected' : '' }}>{{ $city->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
 
                     <!-- Button -->
-                    <div class="col-12 col-lg-2">
+                    <div class="col-12 col-lg-2 search-field-col search-action-col">
                         <button type="submit" class="btn w-100 btn-theme search-submit-btn">
                             <i class="bi bi-search"></i> Search
                         </button>

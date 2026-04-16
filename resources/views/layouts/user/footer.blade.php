@@ -28,7 +28,7 @@
                         <li><a href="{{ route('register') }}">Register</a></li>
                     @endguest
                     @auth
-                        <li><a href="{{ route('home') }}">Dashboard</a></li>
+                        <li><a href="{{ route('/') }}">Dashboard</a></li>
                         <li><a href="{{ route('change-password') }}">Change Password</a></li>
                     @endauth
                 </ul>

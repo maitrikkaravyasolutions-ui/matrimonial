@@ -21,7 +21,7 @@ class ProfileController extends Controller
 {
     public function __construct(protected ProfileService $profileservice){}
 
-    public function create_profie()
+    public function create_profile()
     {
         $profile = $this->profileservice->getProfileByUserId(auth()->id());
 
@@ -40,11 +40,19 @@ class ProfileController extends Controller
             $request->merge(['profile_id' => $profile->id]);
             $this->profileservice->updateProfile($request);
 
-            return redirect()->back()->with('success', 'Profile updated successfully');
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Profile updated successfully',
+                'redirect' => route('users.create_profile')
+            ]);
         } else {
-            $this->profileservice->createFavProfile($request);
+            $this->profileservice->createProfile($request);
 
-            return redirect()->back()->with('success', 'Profile created successfully');
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Profile created successfully',
+                'redirect' => route('users.create_profile')
+            ]);
         }
     }
 
@@ -55,7 +63,11 @@ class ProfileController extends Controller
         $request->merge(['profile_id' => $profile->id]);
         $this->profileservice->updateProfile($request);
 
-        return redirect()->back()->with('success', 'Profile updated successfully');
+        return response()->json([
+                'status' => 'success',
+                'message' => 'Profile updated successfully',
+                'redirect' => route('users.create_profile')
+            ]);
     }
 
     public function deleteGalleryImg(Request $request)

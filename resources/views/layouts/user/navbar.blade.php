@@ -14,11 +14,7 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <div class="ms-auto">
         <ul class="navbar-nav align-items-lg-center gap-lg-1">
-          @if(Auth::user()?->role=="User")
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('users.create_profile') }}">My Profile</a>
-            </li>
-          @endif
+          
           @if(Auth::user()?->role=="Admin" || Auth::user()?->role=="Super_Admin")
             <li class="nav-item">
               <a class="nav-link" href="{{ route('admin.dashboard.index') }}">Dashboard</a>
@@ -27,11 +23,6 @@
           <li class="nav-item">
             <a class="nav-link" href="{{ route('/') }}">Home</a>
           </li>
-          @if(Auth::user()?->role=="User")
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('user.favourite_profile') }}">Favourite Profile</a>
-            </li>
-          @endif
           @auth
               <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -39,6 +30,12 @@
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    @if(Auth::user()?->role=="User")
+                        <a class="dropdown-item" href="{{ route('users.create_profile') }}">My Profile</a>
+                        <a class="dropdown-item" href="{{ route('user.favourite_profile') }}">Favourite Profile</a>
+                    @endif
+
+                    <a class="dropdown-item" href="{{ route('change-password') }}">{{ __('Change Password') }}</a>
                     <a class="dropdown-item" href="{{ route('logout') }}"
                        onclick="event.preventDefault();
                                      document.getElementById('logout-form').submit();">

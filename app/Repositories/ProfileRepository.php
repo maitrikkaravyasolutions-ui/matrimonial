@@ -234,6 +234,18 @@ class ProfileRepository implements ProfileRepositoryInterface
             $query->whereHas('profile', fn($q) => $q->where('city_id', $request->city));
         }
 
+        if (!empty($request->name)) {
+            $s = $request->name;
+
+            $query->whereHas('profile',function ($q) use ($s) {
+                $q->where('first_name', 'LIKE', "%$s%")
+                  ->orWhere('last_name', 'LIKE', "%$s%")
+                  ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$s}%"])
+                  ->orWhere('education', 'LIKE', "%{$s}%")
+                  ->orWhere('occupation', 'LIKE', "%{$s}%");
+            });
+        }
+
         if (!empty($request->min_age)) {
             $query->whereHas('profile', fn($q) => $q->where('age', '>=', $request->min_age));
         }

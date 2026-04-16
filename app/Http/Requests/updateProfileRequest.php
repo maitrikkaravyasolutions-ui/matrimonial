@@ -67,9 +67,21 @@ class updateProfileRequest extends FormRequest
             'profile_completed' => 'nullable',
             'gotra' => 'nullable|max:100',
             'contact_person_name' => 'required|max:200',
-            'contact_person_number' => 'required|digits:10',
+            // 'contact_person_number' => 'required|digits:10',
+            'contact_person_number' => [
+                Rule::requiredIf(auth()->user()->role !== 'admin'),
+                'digits:10',
+                Rule::unique('profiles', 'contact_person_number')->ignore($this->id, 'id')
+            ],
             'contact_person_wp_number' => 'nullable|digits:10',
-            'contact_person_email' => 'nullable|email|max:200',
+            // 'contact_person_email' => 'nullable|email|max:200',
+            'contact_person_email' => [
+                Rule::requiredIf(auth()->user()->role !== 'Admin'),
+                'nullable',
+                'email',
+                'max:200',
+                Rule::unique('profiles', 'contact_person_email')->ignore($this->id, 'id')
+            ],
             'birth_hours' => 'required',
             'birth_minutes' => 'required',
             'birth_format' => 'required',

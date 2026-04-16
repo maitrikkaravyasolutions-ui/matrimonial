@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\HomeController;
@@ -20,11 +21,24 @@ Route::get('/user/favourite-profile', [UserProfileController::class, 'favourite_
 
 Route::get('/user/{username}',[HomeController::class, 'userlist'])->name('user');
 
+Route::post('/resend-verification-custom', function (Request $request) {
+    $request->validate([
+        'email' => ['required', 'email'],
+    ]);
+    $user = \App\Models\User::where('email', $request->email)->first();
+    if ($user && $user->is_active == 0) {
+        $user->sendEmailVerificationNotification();
+        session()->forget('verify_email');
+        return back()->with('status', 'Verification email sent!');
+    }
+    return back()->withErrors(['login' => 'Invalid request']);
+})->name('custom.verify.resend');
+
 Auth::routes(['verify' => true]);
 
 Route::middleware(['auth',CheckUser::class,'verified'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
-    Route::get('/create_profie', [UserProfileController::class, 'create_profie'])->name('users.create_profile');
+    Route::get('/create_profile', [UserProfileController::class, 'create_profile'])->name('users.create_profile');
     Route::post('/store_profie', [UserProfileController::class, 'store_profile'])->name('users.store_profile');
     Route::post('/update_profile/{id}', [UserProfileController::class, 'update_profile'])->name('users.update_profile');
     Route::delete('user/profile/delete_gallery_img/{id}',[UserProfileController::class, 'deleteGalleryImg'])->name('user.profile.delete_gallery_img');

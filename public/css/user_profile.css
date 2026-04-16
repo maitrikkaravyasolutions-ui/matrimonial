@@ -99,6 +99,26 @@
     background: #8b1e3f;
     border-color: #8b1e3f;
 }
+.favourite-heart-btn {
+    border: 0;
+    background: transparent;
+    color: #8b1e3f;
+    font-size: 1.45rem;
+    line-height: 1;
+    padding: .2rem .35rem;
+    margin-left: auto;
+}
+.favourite-heart-btn:hover {
+    color: #741733;
+    transform: scale(1.06);
+}
+.favourite-heart-btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+.favourite-heart-btn i {
+    pointer-events: none;
+}
 @media (max-width: 767px) {
     .profile-avatar {
         width: 100px;
@@ -107,4 +127,82 @@
     .profile-page {
         padding: .75rem;
     }
+}
+.previewable-image {
+  cursor: zoom-in;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.previewable-image:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+}
+
+.image-lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1055;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 11, 22, 0.9);
+  backdrop-filter: blur(4px);
+  padding: 2rem 1rem;
+}
+
+.image-lightbox-overlay.is-open {
+  display: flex;
+  animation: fadeIn 0.22s ease-out;
+}
+
+.image-lightbox-content {
+  position: relative;
+  max-width: min(92vw, 1100px);
+  width: 100%;
+  text-align: center;
+}
+
+.image-lightbox-image {
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 14px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
+  object-fit: contain;
+  animation: zoomIn 0.2s ease-out;
+}
+
+.image-lightbox-caption {
+  margin-top: 0.9rem;
+  color: #fff;
+  font-size: 0.95rem;
+  letter-spacing: 0.2px;
+}
+
+.image-lightbox-close {
+  position: absolute;
+  top: -14px;
+  right: -4px;
+  border: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-size: 1.55rem;
+  line-height: 1;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.18);
+  transition: background-color 0.2s ease;
+}
+
+.image-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.34);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.95); opacity: 0.8; }
+  to { transform: scale(1); opacity: 1; }
 }

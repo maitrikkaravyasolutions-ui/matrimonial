@@ -15,6 +15,17 @@
           <div class="card filters-card filters-sticky">
             <div class="card-body">
               <div class="mb-3">
+                <h5 class="filters-title mb-1">Quick search</h5>
+                <input
+                  type="text"
+                  name="name"
+                  form="filter_form"
+                  class="form-control"
+                  placeholder="Search by name, education, or profession"
+                  value="{{ request('name') ?: request('education') ?: request('profession') }}"
+                >
+              </div>
+              <div class="mb-3">
                 <h5 class="filters-title mb-1">Filters</h5>
                 <p class="filters-subtitle mb-0">Refine your favourite profiles quickly.</p>
               </div>
@@ -27,11 +38,11 @@
                     <!-- Gender -->
                     <div class="accordion-item">
                       <h2 class="accordion-header">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#genderCollapse">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#genderCollapse">
                           Gender
                         </button>
                       </h2>
-                      <div id="genderCollapse" class="accordion-collapse collapse show">
+                      <div id="genderCollapse" class="accordion-collapse collapse">
                         <div class="accordion-body">
                           <select class="form-select" name="gender">
                             <option value="">All</option>
@@ -51,13 +62,12 @@
                       </h2>
                       <div id="maritalCollapse" class="accordion-collapse collapse">
                         <div class="accordion-body">
-                          <select class="form-select" name="marital_status">
-                            <option value="">All</option>
-                            <option value="Never_Married" <?php if(isset($_GET['marital_status']) && $_GET['marital_status'] == 'Never_Married') echo 'selected'; ?>>Never Married</option>
-                            <option value="Divorced" <?php if(isset($_GET['marital_status']) && $_GET['marital_status'] == 'Divorced') echo 'selected'; ?>>Divorced</option>
-                            <option value="Widowed" <?php if(isset($_GET['marital_status']) && $_GET['marital_status'] == 'Widowed') echo 'selected'; ?>>Widowed</option>
-                            <option value="Mithi_Jibh_Cancel" <?php if(isset($_GET['marital_status']) && $_GET['marital_status'] == 'Mithi_Jibh_Cancel') echo 'selected'; ?>>Mithi Jibh Cancel</option>
-                            <option value="Broken_Engagement" <?php if(isset($_GET['marital_status']) && $_GET['marital_status'] == 'Broken_Engagement') echo 'selected'; ?>>Broken Engagement</option>
+                          <select class="form-select" name="marital_status[]" id="marital_status" multiple="multiple">
+                            <option value="Never_Married" <?php if(isset($_GET['marital_status']) &&  in_array('Never_Married', $_GET['marital_status'])) echo 'selected'; ?>>Never Married</option>
+                            <option value="Divorced" <?php if(isset($_GET['marital_status']) && in_array('Divorced', $_GET['marital_status'])) echo 'selected'; ?>>Divorced</option>
+                            <option value="Widowed" <?php if(isset($_GET['marital_status']) && in_array('Widowed', $_GET['marital_status'])) echo 'selected'; ?>>Widowed</option>
+                            <option value="Mithi_Jibh_Cancel" <?php if(isset($_GET['marital_status']) && in_array('Mithi_Jibh_Cancel', $_GET['marital_status'])) echo 'selected'; ?>>Mithi Jibh Cancel</option>
+                            <option value="Broken_Engagement" <?php if(isset($_GET['marital_status']) && in_array('Broken_Engagement', $_GET['marital_status'])) echo 'selected'; ?>>Broken Engagement</option>
                           </select>
                         </div>
                       </div>
@@ -72,10 +82,10 @@
                       </h2>
                       <div id="cityCollapse" class="accordion-collapse collapse">
                         <div class="accordion-body">
-                          <select class="form-select" name="city">
-                            <option value="">All</option>
+                          <select class="form-select" name="city[]" id="city" multiple="multiple">
                             @foreach($cityList as $city)
-                              <option value="{{ $city->id }}" {{ request('city') == $city->id ? 'selected' : '' }}>
+                              <option value="{{ $city->id }}"
+                                {{ in_array($city->id, request('city', [])) ? 'selected' : '' }}>
                                 {{ $city->name }}
                               </option>
                             @endforeach
@@ -99,47 +109,8 @@
                       </div>
                     </div>
 
-                    <!-- Name/ Religion -->
-                    <div class="accordion-item">
-                      <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#searchCollapse">
-                          Name / Religion
-                        </button>
-                      </h2>
-                      <div id="searchCollapse" class="accordion-collapse collapse">
-                        <div class="accordion-body">
-                          <input type="text" name="name" class="form-control" placeholder="Enter name or religion" value="{{ request('name') }}">
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Education -->
-                    <div class="accordion-item">
-                      <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#educationCollapse">
-                          Education
-                        </button>
-                      </h2>
-                      <div id="educationCollapse" class="accordion-collapse collapse">
-                        <div class="accordion-body">
-                         <input type="text" id="education" name="education" class="form-control" placeholder="Education" value="<?php if (isset($_GET['education']) && $_GET['education'])  echo $_GET['education'] ?>" />
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Profession -->
-                    <div class="accordion-item">
-                      <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#professionCollapse">
-                          Profession
-                        </button>
-                      </h2>
-                      <div id="professionCollapse" class="accordion-collapse collapse">
-                        <div class="accordion-body">
-                         <input type="text" id="profession" name="profession" class="form-control" placeholder="profession" value="<?php if (isset($_GET['profession']) && $_GET['profession'])  echo $_GET['profession'] ?>" />
-                        </div>
-                      </div>
-                    </div>
+                    <input type="hidden" name="education" value="">
+                    <input type="hidden" name="profession" value="">
                   </div>
 
                   <!-- Buttons -->
@@ -172,7 +143,6 @@
                                 <select class="form-select profiles-sort-select w-auto" name="sorting" id="sorting">
                                   <option value="latest" {{ request('sort_by') == 'latest' ? 'selected' : '' }}>Latest</option>
                                   <option value="age" {{ request('sort_by') == 'age' ? 'selected' : '' }}>Age</option>
-                                  <option value="location" {{ request('sort_by') == 'location' ? 'selected' : '' }}>Location</option>
                                 </select>
                             </form>
                           </div>
@@ -265,5 +235,19 @@
 
 
 @section('js')
+<script>
+$(document).ready(function () {
+    $('#marital_status').select2({
+      placeholder: "Select a marital status",
+      allowClear: true,
+      width: '100%'
+    });
+    $('#city').select2({
+        placeholder: "Select a city",
+        allowClear: true,
+        width: '100%'
+    });
+});
+</script>
   <script type="text/javascript" src="{{ asset('js/profile/favourite_profile.js') }}"></script>
 @endsection

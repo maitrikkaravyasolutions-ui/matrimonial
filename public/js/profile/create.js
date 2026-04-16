@@ -76,7 +76,7 @@
   $('#profile_form .is-invalid').removeClass('is-invalid');
 
   // Clear all error messages
-  $('#profile_form .help-block strong').text('');
+  $('#profile_form .help-block span').text('');
 
     var url = $(this).attr("action");
     let formData = new FormData(this);

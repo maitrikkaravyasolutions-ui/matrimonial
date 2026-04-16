@@ -1,11 +1,89 @@
 @extends('layouts.user.app')
 
 @section('title')
-Create Profile
+Profile
 @endsection
 
 @section('style')
   <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+  <style>
+    .create-profile-page {
+      max-width: 1100px;
+    }
+    .profile-form-hero {
+      background: linear-gradient(135deg, #fff5f8 0%, #ffffff 70%);
+      border: 1px solid #f3dde5;
+      border-radius: 1rem;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 8px 20px rgba(56, 28, 42, 0.08);
+    }
+    .profile-form-hero h2 {
+      color: #2f2430;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    .profile-form-hero p {
+      margin-bottom: 0;
+      color: #755f68;
+    }
+    .modern-profile-card {
+      border: 0;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(56, 28, 42, 0.1);
+    }
+    .modern-profile-card .card-header {
+      background: #fffafb;
+      border-bottom: 1px solid #f2dee4;
+      padding: 1rem 1.25rem;
+    }
+    .modern-profile-card .card-body {
+      padding: 1.25rem;
+    }
+    .form-section-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #8b1e3f;
+      border-left: 4px solid #8b1e3f;
+      background: #fff6f8;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem;
+      margin-top: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+    .modern-profile-card .form-label {
+      font-weight: 600;
+      color: #4a3942;
+    }
+    .modern-profile-card .form-control,
+    .modern-profile-card .form-select,
+    .modern-profile-card textarea {
+      border-radius: 0.6rem;
+      border-color: #e8d8de;
+    }
+    .modern-profile-card .form-control:focus,
+    .modern-profile-card .form-select:focus,
+    .modern-profile-card textarea:focus {
+      border-color: #cf8fa5;
+      box-shadow: 0 0 0 0.2rem rgba(139, 30, 63, 0.12);
+    }
+    .modern-profile-card .card-footer {
+      background: #fffafb;
+      border-top: 1px solid #f2dee4;
+      padding: 1rem 1.25rem;
+    }
+    @media (max-width: 767px) {
+      .profile-form-hero {
+        padding: 1rem;
+      }
+      .modern-profile-card .card-body,
+      .modern-profile-card .card-header,
+      .modern-profile-card .card-footer {
+        padding: 1rem;
+      }
+    }
+  </style>
 @endsection
 
 @section('content')
@@ -13,23 +91,32 @@ Create Profile
     $mosals = old('mosal') ?? ($profile->mosals ?? []);
 @endphp
 
-  <div class="section row mx-2 m-4">
-    <div class="col-md-2">
+  <div class="container create-profile-page mt-4 mb-4">
+    <div class="profile-form-hero">
+      <h2>{{ $profile?->id ? 'Update Your Profile' : 'Create Your Profile' }}</h2>
+      <p>Make your profile stand out with complete and clear details.</p>
     </div>
-    <div class="col-md-8">
+    <div class="section row mx-0">
+    <div class="col-md-12">
 
-      <div class="card card-info card-outline mb-4">
+      <div class="card card-info card-outline mb-4 modern-profile-card">
         <div class="row card-header">
           <div class="col-sm-6">
-            <h3 class="mb-0 text-secondary">{{ !empty($profile->first_name) ? 'Update Profile' : 'Create Profile' }}</h3>
+            <h3 class="mb-0 text-secondary">My Profile</h3>
           </div>
           
         </div>
+
         <!--begin::Form-->
         @if($profile?->id)
          <form action="{{ route('users.update_profile',$profile->id) }}" method="POST" class="needs-validation" id="profile_form">
         @else
           <form action="{{ route('users.store_profile') }}" method="POST" class="needs-validation" id="profile_form">
+        @endif
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
         @endif
           @csrf
           <!--begin::Body-->
@@ -37,9 +124,9 @@ Create Profile
             <!--begin::Row-->
             <div class="row g-3">
               <!--begin::Col-->
-              <h3 class="fw-bold">
+              <h5 class="form-section-title">
                 Basic Information
-              </h3>
+              </h5>
 
               <div class="col-md-6">
                 <label for="first_name" class="form-label">First name<span class="text-danger">*</span></label>
@@ -127,7 +214,7 @@ Create Profile
                 <div class="col-md-3">
                   <select class="form-select" id="birth_minutes" name="birth_minutes">
                         <option selected disabled value="">Minutes...</option>
-                        <option  value="00">00</option>
+                        <option  value="00" {{ $profile?->birth_time_parts['minutes'] == 00 ? 'selected' : '' }}>00</option>
                         @for ($i = 1; $i <= 60; $i++)
                           <option value="{{ $i }}" {{ ($profile->birth_time_parts['minutes'] ?? '') == $i ? 'selected' : '' }}>{{ $i }}</option>
                         @endfor
@@ -271,9 +358,9 @@ Create Profile
                   <span class="help-block"><strong></strong></span>
               </div>
 
-              <h3 class="fw-bold">
+              <h5 class="form-section-title">
                 Location Details
-              </h3>
+              </h5>
 
               <div class="col-md-6">
                   <label for="country" class="form-label">Country<span class="text-danger">*</span></label>
@@ -310,9 +397,9 @@ Create Profile
               </div>
 
 
-              <h3 class="fw-bold">
+              <h5 class="form-section-title">
                 Education & Profession
-              </h3>
+              </h5>
 
               <div class="col-md-6">
                 <label for="education" class="form-label">Education<span class="text-danger">*</span></label>
@@ -377,9 +464,9 @@ Create Profile
                 <span class="help-block"><strong></strong></span>
               </div>
 
-              <h3 class="fw-bold">
+              <h5 class="form-section-title">
                 Family Details
-              </h3>
+              </h5>
 
               <div class="col-md-6">
                 <label for="father_name" class="form-label">Father Name<span class="text-danger">*</span></label>
@@ -471,9 +558,9 @@ Create Profile
 
               </div>
 
-              <h3 class="fw-bold">
+              <h5 class="form-section-title">
                 Mosal Details
-              </h3>
+              </h5>
               <div id="mosal_details" class="row">
                 <div class="col-md-6">
                   <label for="location" class="form-label">Location</label>
@@ -500,6 +587,7 @@ Create Profile
                                 name="mosal[{{ $key }}][person_name]"
                                 value="{{ is_array($mosal) ? $mosal['person_name'] ?? '' : $mosal->person_name }}"
                             >
+                            <span class="help-block"><strong></strong></span>
 
                             @error("mosal.$key.person_name")
                                 <span class="text-danger">{{ $message }}</span>
@@ -513,6 +601,7 @@ Create Profile
                                 name="mosal[{{ $key }}][contact_number]"
                                 value="{{ is_array($mosal) ? $mosal['contact_number'] ?? '' : $mosal->contact_number }}"
                             >
+                            <span class="help-block"><strong></strong></span>
 
                             @error("mosal.$key.contact_number")
                                 <span class="text-danger">{{ $message }}</span>
@@ -533,24 +622,26 @@ Create Profile
                         <div class="col-md-5">
                           <label for="person_name" class="form-label">Person Name</label>
                             <input type="text" name="mosal[0][person_name]" class="form-control">
+                            <span class="help-block"><strong></strong></span>
                         </div>
 
                         <div class="col-md-5">
                           <label for="contact_number" class="form-label">Contact Number</label>
                             <input type="text" name="mosal[0][contact_number]" class="form-control">
+                            <span class="help-block"><strong></strong></span>
                         </div>
                     </div>
                   @endif
 
                 <div class="col-md-2 mt-4">
-                  <button type="button" id="add_mosal" class="btn btn-primary add_mosal"> <i class="nav-icon bi bi-plus"></i> </button>
+                  <button type="button" id="add_mosal" class="btn btn-theme add_mosal"> <i class="nav-icon bi bi-plus"></i> </button>
                 </div>
               </div>
 
               <div id="add_more_mosal" class="row"></div>
-              <h3 class="fw-bold">
+              <h5 class="form-section-title">
                 Lifestyle & Personal Info
-              </h3>
+              </h5>
 
               <div class="col-md-6">
                   <label for="hobbies" class="form-label">Hobbies<span class="text-danger">*</span></label>
@@ -564,9 +655,9 @@ Create Profile
                   <span class="help-block"><strong></strong></span>
               </div>
 
-              <h3 class="fw-bold">
+              <h5 class="form-section-title">
                 Contact Details
-              </h3>
+              </h5>
 
               <div class="col-md-6">
                 <label for="contact_person_name" class="form-label">Contact Person Name<span class="text-danger">*</span></label>
@@ -632,9 +723,9 @@ Create Profile
                 <label for="show_contact_publicly">Yes</label>
               </div>
 
-              <h3 class="fw-bold">
+              <h5 class="form-section-title">
                 Profile Media
-              </h3>
+              </h5>
 
               <div class="col-md-6">
                 <label for="upload_profile_photo" class="form-label">Upload Profile Photo</label>
@@ -704,17 +795,15 @@ Create Profile
           <!--end::Body-->
           <!--begin::Footer-->
           <div class="card-footer">
-            <button class="btn btn-info mx-2" type="submit">Submit</button>
+            <button class="btn btn-theme mx-2" type="submit">Save</button>
             <a href="{{ url()->previous() }}" class="btn btn-outline-primary">
-                <i class="bi bi-arrow-left"></i> Back
+                Cancel
             </a>
           </div>
           <!--end::Footer-->
         </form>
       <!--end::Form-->
     </div>
-
-    <div class="col-md-2">
 
     </div>
     </div>
@@ -914,7 +1003,12 @@ Create Profile
           contentType: false,
           processData: false,
           success: (response) => {
-              window.location.href = '/admin/profile';                      
+              if (response.status === 'success') {
+                  Swal.fire({
+                    title: response.message,
+                    icon: "success",
+                });
+              }
           },
           error: function(response){
               $.each(response.responseJSON.errors, function (key, value) {

@@ -22,17 +22,20 @@ User Detail Page
         <div class="col-12 col-md-3 text-center">
           <img src="{{ $profile->profile_photo?->image ? asset('/profile_photos/'.$profile->profile_photo->image) : ($profile->gender == 'Male' ? asset('/assets/img/man.png') : asset('/assets/img/women.png')) }}"
             alt="{{ $profile->first_name }} profile image"
-            class="rounded-circle profile-avatar">
+            class="rounded-circle profile-avatar previewable-image"
+            data-previewable-image="true">
         </div>
         <div class="col-12 col-md-9">
           <h3 class="mb-1 fw-bold">{{ $profile->first_name }} {{ $profile->middle_name }} {{ $profile->last_name }}</h3>
           <p class="text-muted mb-3">{{ $profile->city->name ?? '-' }} | {{ $profile->occupation ?? '-' }}</p>
           @if(Auth::user()?->role == "User")
-            @if(!empty($is_favourite))
-              <button class=" px-4" onclick="BookmarkFunction({{ $profile->id }},this)"><i class="bi bi-heart-fill"></i></button>
-            @else
-              <button class="btn btn-theme-soft px-4" onclick="BookmarkFunction({{ $profile->id }},this)"><i class="bi bi-heart"></i></button>
-            @endif
+            <button
+              class="favourite-heart-btn"
+              onclick="BookmarkFunction({{ $profile->id }},this)"
+              aria-label="{{ !empty($is_favourite) ? 'Remove from favourites' : 'Add to favourites' }}"
+              title="{{ !empty($is_favourite) ? 'Remove from favourites' : 'Add to favourites' }}">
+              <i class="bi {{ !empty($is_favourite) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+            </button>
           @endif
         </div>
       </div>
@@ -49,8 +52,8 @@ User Detail Page
             <div class="col-12 col-md-6"><div class="info-item"><span class="info-label">Age</span><span class="info-value">{{ $profile->age ?? '-' }}</span></div></div>
             <div class="col-12 col-md-6"><div class="info-item"><span class="info-label">Birth Time</span><span class="info-value">{{ $profile->birth_time ?? '-' }}</span></div></div>
             <div class="col-12 col-md-6"><div class="info-item"><span class="info-label">Birth Place</span><span class="info-value">{{ $profile->birth_place ?? '-' }}</span></div></div>
-            <div class="col-12 col-md-6"><div class="info-item"><span class="info-label">Height</span><span class="info-value">{{ $profile->height ? str_replace(".", "'", $profile->height) : '-' }}</span></div></div>
-            <div class="col-12 col-md-6"><div class="info-item"><span class="info-label">Weight</span><span class="info-value">{{ $profile->Weight ?? '-' }}</span></div></div>
+            <div class="col-12 col-md-6"><div class="info-item"><span class="info-label">Height</span><span class="info-value">{{ $profile->height ? str_replace(".", "'", $profile->height) : '-' }}*</span></div></div>
+            <div class="col-12 col-md-6"><div class="info-item"><span class="info-label">Weight</span><span class="info-value">{{ $profile->Weight ?? '-' }} kg</span></div></div>
             <div class="col-12 col-md-6"><div class="info-item"><span class="info-label">Marital Status</span><span class="info-value">{{ $profile->marital_status ? str_replace('_' , ' ', $profile->marital_status) : '-' }}</span></div></div>
             <div class="col-12 col-md-6"><div class="info-item"><span class="info-label">Mother Tongue</span><span class="info-value">{{ $profile->mother_tounge ?? '-' }}</span></div></div>
             <div class="col-12 col-md-6"><div class="info-item"><span class="info-label">Rashi</span><span class="info-value">{{ $profile->rashi ?? '-' }}</span></div></div>
@@ -100,7 +103,7 @@ User Detail Page
               <div class="col-12 col-md-6">
                 <div class="info-item">
                   <span class="info-label">Contact Details</span>
-                  <span class="info-value">{{ $mosal->person_name }} , {{ $profile->show_contact_publicly ? $mosal->contact_number : Str::mask($mosal->contact_number, '*', 0, -2) }}</span>
+                  <span class="info-value">{{ $mosal->person_name ? $mosal->person_name. ' ,': ''  }}  {{ $profile->show_contact_publicly ? $mosal->contact_number : Str::mask($mosal->contact_number, '*', 0, -2) }}</span>
                 </div>
               </div>
             @endforeach
@@ -122,15 +125,17 @@ User Detail Page
             </div>
           </div>
 
-          <h5 class="section-title">Other Images</h5>
-          @if(count($profile->gallery_photo) > 0)
-            <div class="gallery-grid">
-              @foreach($profile->gallery_photo as $gallery_photo)
-                <img src="{{ asset('/gallery_photo/'.$gallery_photo->image) }}" alt="Gallery photo" class="gallery-thumb">
-              @endforeach
-            </div>
-          @else
-            <p class="text-center text-muted mb-0">No other images</p>
+          @if($profile->gallery_photo->isNotEmpty())
+            <h5 class="section-title">Other Images</h5>
+            @if(count($profile->gallery_photo) > 0)
+              <div class="gallery-grid">
+                @foreach($profile->gallery_photo as $gallery_photo)
+                  <img src="{{ asset('/gallery_photo/'.$gallery_photo->image) }}" alt="Gallery photo" class="gallery-thumb previewable-image" data-previewable-image="true">
+                @endforeach
+              </div>
+            @else
+              <p class="text-center text-muted mb-0">No other images</p>
+            @endif
           @endif
         </div>
       </div>
@@ -154,11 +159,65 @@ User Detail Page
   </div>
 </div>
 
+<div class="image-lightbox-overlay" id="imageLightbox" aria-hidden="true">
+  <div class="image-lightbox-content" role="dialog" aria-modal="true" aria-label="Image preview dialog">
+    <button type="button" class="image-lightbox-close" id="imageLightboxClose" aria-label="Close image preview">&times;</button>
+    <img src="" alt="Preview image" class="image-lightbox-image" id="imageLightboxImage">
+    <div class="image-lightbox-caption" id="imageLightboxCaption"></div>
+  </div>
+</div>
+
 @endsection
 
 @section('js')
 <script>
 window.loggedIn = {{ auth()->check() ? 'true' : 'false' }};
+
+(() => {
+  const previewImages = document.querySelectorAll('[data-previewable-image="true"]');
+  const lightbox = document.getElementById('imageLightbox');
+  const lightboxImage = document.getElementById('imageLightboxImage');
+  const lightboxCaption = document.getElementById('imageLightboxCaption');
+  const closeBtn = document.getElementById('imageLightboxClose');
+
+  if (!previewImages.length || !lightbox || !lightboxImage || !closeBtn) {
+    return;
+  }
+
+  const openLightbox = (src, altText) => {
+    lightboxImage.src = src;
+    lightboxImage.alt = altText || 'Image preview';
+    lightboxCaption.textContent = altText || 'Photo Preview';
+    lightbox.classList.add('is-open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeLightbox = () => {
+    lightbox.classList.remove('is-open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    lightboxImage.src = '';
+    document.body.style.overflow = '';
+  };
+
+  previewImages.forEach((imageEl) => {
+    imageEl.addEventListener('click', () => openLightbox(imageEl.src, imageEl.alt));
+  });
+
+  closeBtn.addEventListener('click', closeLightbox);
+
+  lightbox.addEventListener('click', (event) => {
+    if (event.target === lightbox) {
+      closeLightbox();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && lightbox.classList.contains('is-open')) {
+      closeLightbox();
+    }
+  });
+})();
 </script>
 <script type="text/javascript" src="{{ asset('js/profile/common.js') }}"></script>
 @endsection

@@ -80,6 +80,7 @@ class LoginController extends Controller
         $user = User::where($field, $login)->first();
 
         if ($user && $user->is_active == 0) {
+            session(['verify_email' => $user->email]);
             throw ValidationException::withMessages([
                 'login' => ['Please verify your email before login.'],
             ]);

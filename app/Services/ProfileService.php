@@ -61,7 +61,7 @@ class ProfileService
             unset($validated['birth_hours'], $validated['birth_minutes'], $validated['birth_format']);
 
             if (Auth::user()->role === 'User') {
-                $data['profile_status'] = 1;
+                $validated['profile_status'] = 1;
             }
 
             $profile = $this->profileRepository->create($validated);

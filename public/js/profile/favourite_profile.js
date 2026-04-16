@@ -9,7 +9,25 @@ function BookmarkFunction(profileId, el) {
             profile_id: profileId
         })
     })
-    .then(res => res.json())
+    .then(async (res) => {
+        const contentType = res.headers.get("content-type") || "";
+
+        if (res.redirected || contentType.includes("text/html")) {
+            const redirectUrl = res.url || "/email/verify";
+            throw { type: "verification_redirect", redirectUrl };
+        }
+
+        if (!res.ok) {
+            let message = "Unable to update favourite profile.";
+            try {
+                const errorData = await res.json();
+                message = errorData.message || message;
+            } catch (e) {}
+            throw { type: "request_error", message };
+        }
+
+        return res.json();
+    })
     .then(data => {
         el.blur();
         Swal.fire({
@@ -17,13 +35,32 @@ function BookmarkFunction(profileId, el) {
           text: 'Pofile Removed from Favourite',
           icon: 'success',
           confirmButtonText: 'OK',
+          confirmButtonColor: '#8b1e3f',
           returnFocus: false
         }).then((result) => {
           if (result.isConfirmed) {
             location.reload();
           }
         });
+    })
+    .catch((error) => {
+        if (error?.type === "verification_redirect") {
+            Swal.fire({
+                title: "Email verification required",
+                text: "Please verify your email to manage favourites.",
+                icon: "warning",
+                confirmButtonText: "Verify Email"
+            }).then(() => {
+                window.location.href = error.redirectUrl;
+            });
+            return;
+        }
 
+        Swal.fire({
+            title: "Something went wrong",
+            text: error?.message || "Unable to update favourite profile right now.",
+            icon: "error"
+        });
     });
 }
 
@@ -111,7 +148,7 @@ function loadMore() {
 
             if (!res.has_more) {
                 hasMore = false;
-                $('#favourite_profile_list').append("<h3 class='text-center'>No More Record found</h3>");
+                $('#favourite_profile_list').append("<span class='text-center' style='font-size=0.86rem'>No More Record found</span>");
             }
 
             loading = false;

@@ -51,12 +51,7 @@
               name="first_name"
               value = "{{ $profile->first_name }}"
             />
-            <span class="help-block"><strong></strong></span>
-            @error('first_name')
-              <span class="first_name text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
           
           <!--end::Col-->
@@ -70,12 +65,7 @@
               name="middle_name"
               value = "{{ $profile->middle_name }}"
             />
-            <span class="help-block"><strong></strong></span>
-            @error('middle_name')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
           <!--end::Col-->
           <!--begin::Col-->
@@ -88,12 +78,7 @@
               name="last_name"
               value = "{{ $profile->last_name }}"
             />
-            <span class="help-block"><strong></strong></span>
-            @error('last_name')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
           <!--end::Col-->
           <!--begin::Col-->
@@ -104,24 +89,14 @@
                 <option value="Male" <?php if($profile->gender == 'Male') echo 'selected'; ?>>Male</option>
                 <option value="Female" <?php if($profile->gender == 'Female') echo 'selected'; ?>>Female</option>
               </select>
-              <span class="help-block"><strong></strong></span>
-            @error('gender')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+              <span class="help-block"><span></span></span>
           </div>
           <!--end::Col-->
           <!--begin::Col-->
           <div class="col-md-6">
               <label for="gender" class="form-label">Birth Date<span class="text-danger">*</span></label>
               <input type="text" class="form-control" id="birth_date" name="date_of_birth" placeholder="Select a date" value="{{ $profile->date_of_birth }}">
-              <span class="help-block"><strong></strong></span>
-            @error('birth_date')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+              <span class="help-block"><span></span></span>
           </div>
           <!--end::Col-->
           <!--begin::Col-->
@@ -134,12 +109,7 @@
               name="age"
               value = "{{ $profile->age }}"
             />
-            <span class="help-block"><strong></strong></span>
-            @error('age')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
           <!--end::Col-->
           <!--begin::Col-->
@@ -152,7 +122,7 @@
                     <option value="{{ $i }}" {{ ($profile->birth_time_parts['hours'] ?? '') == $i ? 'selected' : '' }}>{{ $i }}</option>
                   @endfor
               </select>
-              <span class="help-block"><strong></strong></span>
+              <span class="help-block"><span></span></span>
             </div>
             <div class="col-md-3">
               <select class="form-select" id="birth_minutes" name="birth_minutes">
@@ -161,7 +131,7 @@
                       <option value="{{ $i }}" {{ ($profile->birth_time_parts['minutes'] ?? '') == $i ? 'selected' : '' }}>{{ $i }}</option>
                     @endfor
                 </select>
-                <span class="help-block"><strong></strong></span>
+                <span class="help-block"><span></span></span>
             </div>
             <div class="col-md-3">
               <select class="form-select" id="birth_format" name="birth_format">
@@ -174,7 +144,7 @@
                         PM
                     </option>
                 </select>
-                <span class="help-block"><strong></strong></span>
+                <span class="help-block"><span></span></span>
             </div>
           </div>
 
@@ -189,12 +159,7 @@
               name="birth_place"
               value = "{{ $profile->birth_place }}"
             />
-            <span class="help-block"><strong></strong></span>
-            @error('birth_place')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
           <!--end::Col-->
 
@@ -216,12 +181,7 @@
                   @endfor
               </select>
             </div>
-            <span class="help-block"><strong></strong></span>
-            @error('height')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
           <div class="col-md-6">
@@ -235,12 +195,7 @@
               value = "{{ $profile->Weight }}"
 
             />
-            <span class="help-block"><strong></strong></span>
-            @error('weight')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
           <div class="col-md-6">
@@ -255,12 +210,7 @@
                 <option value="Mithi_Jibh_Cancel" <?php if($profile->marital_status == "Mithi_Jibh_Cancel") echo 'selected'; ?>>Mithi Jibh Cancel</option>
                 <option value="Broken_Engagement" <?php if($profile->marital_status == "Broken_Engagement") echo 'selected'; ?>>Broken Engagement</option>
               </select>
-              <span class="help-block"><strong></strong></span>
-            @error('marital_status')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+              <span class="help-block"><span></span></span>
           </div>
 
           <div class="col-md-6">
@@ -273,12 +223,7 @@
               value = "{{ $profile->mother_tounge }}"
 
             />
-            <span class="help-block"><strong></strong></span>
-            @error('mother_tounge')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
           <div class="col-md-6">
@@ -290,12 +235,7 @@
               name="rashi"
               value = "{{ $profile->rashi }}"
             />
-            <span class="help-block"><strong></strong></span>
-            @error('rashi')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
           <div class="col-md-6">
@@ -307,12 +247,7 @@
               name="caste"
               value = "{{ $profile->caste }}"
             />
-            <span class="help-block"><strong></strong></span>
-            @error('caste')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
           <div class="col-md-6">
@@ -324,12 +259,7 @@
               name="gotra"
               value = "{{ $profile->gotra }}"
             />
-            <span class="help-block"><strong></strong></span>
-            @error('gotra')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
           <div class="col-md-6">
@@ -340,12 +270,7 @@
                 <option value="no" <?php if($profile->manglik == "No") echo 'selected'; ?>>No</option>
                 <option value="don't know" <?php if($profile->manglik == "Don't Know") echo 'selected'; ?>>Don't know</option>
               </select>
-              <span class="help-block"><strong></strong></span>
-            @error('manglik')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+              <span class="help-block"><span></span></span>
           </div>
 
           <h3 class="fw-bold">
@@ -360,12 +285,7 @@
                   <option value="{{ $val['id'] }}" <?php if($profile['country_id'] == $val['id']) echo 'selected';?>>{{ $val['name'] }}</option>
                 @endforeach
               </select>
-              <span class="help-block"><strong></strong></span>
-            @error('country')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+              <span class="help-block"><span></span></span>
           </div>
 
 
@@ -374,12 +294,7 @@
               <select class="form-select" id="state_id" name="state_id">
                 <option selected disabled value="">Choose...</option>
               </select>
-              <span class="help-block"><strong></strong></span>
-            @error('state')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+              <span class="help-block"><span></span></span>
           </div>
 
           <div class="col-md-6">
@@ -387,23 +302,13 @@
               <select class="form-select" id="city_id" name="city_id">
                 <option selected disabled value="">Choose...</option>
               </select>
-              <span class="help-block"><strong></strong></span>
-            @error('city')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+              <span class="help-block"><span></span></span>
           </div>
 
           <div class="col-md-6">
               <label for="current_location" class="form-label">Address<span class="text-danger">*</span></label>
               <textarea class="form-control" aria-label="With textarea" name="current_address">{{ $profile->current_address }}</textarea>
-              <span class="help-block"><strong></strong></span>
-            @error('current_location')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+              <span class="help-block"><span></span></span>
           </div>
 
 
@@ -420,12 +325,7 @@
               name="education"
               value = "{{ $profile->education }}"
             />
-            <span class="help-block"><strong></strong></span>
-            @error('education')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
 
@@ -438,12 +338,7 @@
               name="occupation"
               value = "{{ $profile->occupation }}"
             />
-            <span class="help-block"><strong></strong></span>
-            @error('occupation')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
 
@@ -456,12 +351,7 @@
               name="company_name"
               value = "{{ $profile->company_name }}"
             />
-            <span class="help-block"><strong></strong></span>
-            @error('company_name')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
           <div class="col-md-6">
@@ -473,12 +363,7 @@
               name="annual_income"
               value = "{{ $profile->annual_income }}"
             />
-            <span class="help-block"><strong></strong></span>
-            @error('Annual_income')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
 
@@ -491,12 +376,7 @@
               name="work_location"
               value = "{{ $profile->work_location }}"
             />
-            <span class="help-block"><strong></strong></span>
-            @error('work_location')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
           <h3 class="fw-bold">
@@ -512,12 +392,7 @@
               name="father_name"
               value = "{{ $profile->father_name }}"
             />
-            <span class="help-block"><strong></strong></span>
-            @error('father_name')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
           <div class="col-md-6">
@@ -529,12 +404,7 @@
               name="father_occupation"
               value = "{{ $profile->father_occupation }}"
             />
-            <span class="help-block"><strong></strong></span>
-            @error('father_occupation')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
 
@@ -548,12 +418,7 @@
               value = "{{ $profile->mother_name }}"
 
             />
-            <span class="help-block"><strong></strong></span>
-            @error('mother_name')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
           <div class="col-md-6">
@@ -566,12 +431,7 @@
               value = "{{ $profile->mother_occupation }}"
 
             />
-            <span class="help-block"><strong></strong></span>
-            @error('mother_occupation')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
 
@@ -586,12 +446,7 @@
               value = "{{ $profile->no_of_brothers }}"
 
             />
-            <span class="help-block"><strong></strong></span>
-            @error('no_of_brothers')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
           <div class="col-md-6">
@@ -605,12 +460,7 @@
               value = "{{ $profile->no_of_sisters }}"
 
             />
-            <span class="help-block"><strong></strong></span>
-            @error('no_of_sister')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
           <div class="col-md-6">
@@ -620,12 +470,7 @@
                 <option value="joint" <?php if($profile->family_type == 'Joint') echo 'selected'; ?>>Joint</option>
                 <option value="nuclear" <?php if($profile->family_type == 'Nuclear') echo 'selected'; ?>>Nuclear</option>
               </select>
-              <span class="help-block"><strong></strong></span>
-            @error('family_type')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+              <span class="help-block"><span></span></span>
           </div>
 
           <div class="col-md-6">
@@ -646,12 +491,7 @@
                 name="mosal_name"
                 value = "{{ old('mosal_name', $profile->mosal_name ?? '')  }}"
               />
-              <span class="help-block"><strong></strong></span>
-              @error('location')
-                <span class="text-danger" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-              @enderror
+              <span class="help-block"><span></span></span>
             </div>
             <div class= "col-md-6">
 
@@ -668,12 +508,7 @@
                     name="mosal[{{ $key }}][person_name]"
                     value = "{{ $mosal->person_name }}"
                   />
-                  <span class="help-block"><strong></strong></span>
-                  @error('name')
-                    <span class="text-danger" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                  @enderror
+                  <span class="help-block"><span></span></span>
                 </div>
 
                 <div class="col-md-5" >
@@ -685,12 +520,7 @@
                     name="mosal[{{ $key }}][contact_number]"
                     value = "{{ $mosal->contact_number }}"
                   />
-                  <span class="help-block"><strong></strong></span>
-                  @error('contact_number')
-                    <span class="text-danger" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                  @enderror
+                  <span class="help-block"><span></span></span>
                 </div>
 
                 <div class="col-md-2 mt-4">
@@ -712,12 +542,7 @@
                 name="mosal[[0]][person_name]"
                 value = ""
               />
-              <span class="help-block"><strong></strong></span>
-              @error('name')
-                <span class="text-danger" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-              @enderror
+              <span class="help-block"><span></span></span>
             </div>
 
             <div class="col-md-5" >
@@ -728,12 +553,7 @@
                 name="mosal[[0]][contact_number]"
                 value = ""
               />
-              <span class="help-block"><strong></strong></span>
-              @error('contact_number')
-                <span class="text-danger" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-              @enderror
+              <span class="help-block"><span></span></span>
             </div>
             @endif
              <div class="col-md-2 mt-4">
@@ -749,24 +569,13 @@
           <div class="col-md-6">
               <label for="hobbies" class="form-label">Hobbies<span class="text-danger">*</span></label>
               <textarea class="form-control" aria-label="With textarea" name="hobbies">{{ $profile->hobbies }}</textarea>
-              <span class="help-block"><strong></strong></span>
-
-            @error('hobbies')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+              <span class="help-block"><span></span></span>
           </div>
 
           <div class="col-md-6">
               <label for="about_me" class="form-label">About Me<span class="text-danger">*</span></label>
               <textarea class="form-control" aria-label="With textarea" name="about_me">{{ $profile->about_me }}</textarea>
-              <span class="help-block"><strong></strong></span>
-            @error('about_me')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+              <span class="help-block"><span></span></span>
           </div>
 
           <h3 class="fw-bold">
@@ -783,12 +592,7 @@
               value = "{{ $profile->contact_person_name }}"
 
             />
-            <span class="help-block"><strong></strong></span>
-            @error('contact_person_name')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
 
@@ -801,12 +605,7 @@
               name="contact_person_number"
               value = "{{ $profile->contact_person_number }}"
             />
-            <span class="help-block"><strong></strong></span>
-            @error('contact_person_number')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
 
@@ -819,12 +618,7 @@
               name="contact_person_wp_number"
               value = "{{ $profile->contact_person_wp_number }}"
             />
-            <span class="help-block"><strong></strong></span>            
-            @error('contact_person_wp_number')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
           <!--begin::Col-->
@@ -837,12 +631,7 @@
               name="contact_person_email"
               value = "{{ $profile->contact_person_email }}"
             />
-            <span class="help-block"><strong></strong></span>            
-            @error('email')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
           <!--end::Col-->
 
@@ -876,12 +665,7 @@
             @if($profile?->profile_photo?->image)
             <img src="{{ asset('/profile_photos/'.$profile->profile_photo->image) }}" class="img-thumbnail w-25" />
             @endif
-            <span class="help-block"><strong></strong></span>            
-            @error('profile_photo')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
 
 
@@ -895,12 +679,7 @@
               multiple
               value = "{{ old('gallery_photo') }}"
             />
-            <span class="help-block"><strong></strong></span>            
-            @error('gallery_photo')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
             @if($profile?->gallery_photo)
               <div class="d-flex flex-wrap gap-3">
                 @foreach($profile->gallery_photo as $gallery_photo)
@@ -930,12 +709,7 @@
                 <option value="1" <?php if($profile->profile_status == '1') echo 'selected'; ?>>Active</option>
                 <option value="0" <?php if($profile->profile_status == '0') echo 'selected'; ?>>Inactive</option>
               </select>
-            <span class="help-block"><strong></strong></span>            
-            @error('account_status')
-              <span class="text-danger" role="alert">
-                  <strong>{{ $message }}</strong>
-              </span>
-            @enderror
+            <span class="help-block"><span></span></span>
           </div>
           <!--end::Col-->
         </div>
@@ -1062,13 +836,13 @@
     html += '<div class="col-md-5">';
     html += '<label class="form-label">Person Name</label>';
     html += '<input type="text" class="form-control" name="mosal['+i+'][person_name]" />';
-    html += '<span class="help-block"><strong></strong></span>';
+    html += '<span class="help-block"><span></span></span>';
     html += '</div>';
 
     html += '<div class="col-md-5">';
     html += '<label class="form-label">Contact Number</label>';
     html += '<input type="text" class="form-control" name="mosal['+i+'][contact_number]" />';
-    html += '<span class="help-block"><strong></strong></span>';
+    html += '<span class="help-block"><span></span></span>';
     html += '</div>';
 
     html += '<div class="col-md-2 mt-4">';
@@ -1093,7 +867,7 @@
    $('#profile_form .is-invalid').removeClass('is-invalid');
 
 // Clear all error messages
-$('#profile_form .help-block strong').text('');
+$('#profile_form .help-block span').text('');
 
     
     var url = $(this).attr("action");
@@ -1121,7 +895,7 @@ $('#profile_form .help-block strong').text('');
                       input.addClass('is-invalid');
 
                       input.closest('[class*="col-md"]')
-                           .find('.help-block strong')
+                           .find('.help-block span')
                            .text(errorText);
 
                       return;
@@ -1143,7 +917,7 @@ $('#profile_form .help-block strong').text('');
                       input.addClass('is-invalid');
 
                       input.closest('[class*="col-md"]')
-                           .find('.help-block strong')
+                           .find('.help-block span')
                            .text(errorText);
                   }
 

@@ -62,8 +62,10 @@
 }
 .filters-sticky {
   position: sticky;
-  top: 1rem;
+  top: 5.5rem;
   z-index: 2;
+  max-height: calc(100vh - 6.5rem);
+  overflow-y: auto;
 }
 .filters-title,
 .listing-title {
@@ -236,5 +238,8 @@
 @media (max-width: 991px) {
   .filters-sticky {
       position: static;
+      top: auto;
+      max-height: none;
+      overflow-y: visible;
   }
 }
